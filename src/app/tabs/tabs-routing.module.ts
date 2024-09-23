@@ -20,17 +20,24 @@ const routes: Routes = [
         loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
       },
       {
+        path: 'loginsucess',
+        loadChildren: () => import('../loginsucess/loginsucess.module').then( m => m.LoginsucessPageModule)
+      },
+      {
+        path: 'assistanceregistry',
+        loadChildren: () => import('../assistanceregistry/assistanceregistry.module').then( m => m.AssistanceregistryPageModule)
+      },
+      {
+        path: 'assistancescanqr',
+        loadChildren: () => import('../assistancescanqr/assistancescanqr.module').then( m => m.AssistancescanqrPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'
       }
     ]
   },
-  {
-    path: '',
-    redirectTo: '/tabs/tab1',
-    pathMatch: 'full'
-  }
 ];
 
 @NgModule({
