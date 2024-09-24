@@ -17,7 +17,15 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+  },  {
+    path: 'assistancestudent',
+    loadChildren: () => import('./assistancestudent/assistancestudent.module').then( m => m.AssistancestudentPageModule)
+  },
+  {
+    path: 'assistancegenerate',
+    loadChildren: () => import('./assistancegenerate/assistancegenerate.module').then( m => m.AssistancegeneratePageModule)
   }
+
 
 ];
 @NgModule({
