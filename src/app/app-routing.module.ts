@@ -40,6 +40,10 @@ const routes: Routes = [
   {
     path: 'assistanceregistrystu',
     loadChildren: () => import('./assistanceregistrystu/assistanceregistrystu.module').then( m => m.AssistanceregistrystuPageModule)
+  },
+  {
+    path: 'assistancegeneratespec',
+    loadChildren: () => import('./assistancegeneratespec/assistancegeneratespec.module').then( m => m.AssistancegeneratespecPageModule)
   }
 
 
