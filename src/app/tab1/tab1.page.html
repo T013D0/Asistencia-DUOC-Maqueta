@@ -1,26 +1,63 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title class="ion-text-center" size="large">Inicio de sesión</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Inicio de sesión</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-item>
-    <ion-icon size="small" slot="start" ios="document-outline" md="document-outline"></ion-icon>
-    <ion-input label="Ingresa tu correo" label-placement="floating" fill="solid" placeholder="correoejemplo@duocuc.cl"></ion-input>
-  </ion-item>
-  <ion-item>
-  <ion-icon size="small" slot="start" ios="key-outline" md="key-outline"></ion-icon>
-  <ion-input label="Ingresa tu contraseña" label-placement="floating" fill="solid" placeholder="********" type="password"></ion-input>
-  </ion-item>
-  <div class="button-container">
-    <ion-button expand="block" href="/loginsucess">Iniciar sesión</ion-button>
-  </div>
-
-
+  <ion-row class="ion-padding ion-justify-content-center">
+    <ion-col>
+      <div class="form-container">
+        <ion-header collapse="condense">
+          <ion-toolbar>
+            <ion-title size="large" class="ion-text-wrap ion-margin-bottom"
+              >Bienvenido a <br />
+              <span class="text-color-primary">Duoc UC</span>
+              Asistencia</ion-title
+            >
+            <ion-title size="large" class="ion-text-wrap"
+              >Inicio de sesión</ion-title
+            >
+          </ion-toolbar>
+        </ion-header>
+        <form action="#">
+          <ion-item class="login-input">
+            <ion-icon
+              size="small"
+              slot="start"
+              ios="document-outline"
+              md="document-outline"
+            ></ion-icon>
+            <ion-input
+              label="Ingresa tu correo"
+              label-placement="floating"
+              fill="solid"
+              placeholder="correoejemplo@duocuc.cl"
+            ></ion-input>
+          </ion-item>
+          <ion-item class="login-inpit">
+            <ion-icon
+              size="small"
+              slot="start"
+              ios="key-outline"
+              md="key-outline"
+            ></ion-icon>
+            <ion-input
+              label="Ingresa tu contraseña"
+              label-placement="floating"
+              fill="solid"
+              placeholder="********"
+              type="password"
+            ></ion-input>
+          </ion-item>
+          <div class="button-container">
+            <ion-button id="present-alert" (click)="presentAlert()"
+              >Iniciar Sesión</ion-button
+            >
+            <ion-alert
+              trigger="present-alert"
+              header="Iniciaste Sesión Correctamente"
+              subHeader="Dale click en aceptar para continuar"
+              message="Bienvenido a Duoc UC Asistencia"
+              [buttons]="alertButtons"
+            ></ion-alert>
+          </div>
+        </form>
+      </div>
+    </ion-col>
+  </ion-row>
 </ion-content>
