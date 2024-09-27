@@ -24,6 +24,22 @@ const routes: Routes = [
   {
     path: 'assistancegenerate',
     loadChildren: () => import('./assistancegenerate/assistancegenerate.module').then( m => m.AssistancegeneratePageModule)
+  },
+  {
+    path: 'assistanceprof',
+    loadChildren: () => import('./assistanceprof/assistanceprof.module').then( m => m.AssistanceprofPageModule)
+  },
+  {
+    path: 'assistanceregistry1',
+    loadChildren: () => import('./assistanceregistry1/assistanceregistry1.module').then( m => m.Assistanceregistry1PageModule)
+  },
+  {
+    path: 'assistancestudent1',
+    loadChildren: () => import('./assistancestudent1/assistancestudent1.module').then( m => m.Assistancestudent1PageModule)
+  },
+  {
+    path: 'assistanceregistrystu',
+    loadChildren: () => import('./assistanceregistrystu/assistanceregistrystu.module').then( m => m.AssistanceregistrystuPageModule)
   }
 
 
