@@ -9,13 +9,24 @@
 
 <ion-content>
   <ion-card-content>
-    <ion-img
-      src="https://i.gyazo.com/0397b918c923efc35b5529100a37aa10.png"
-    ></ion-img>
+    <div class="ion-content">
+      <div class="ion-align-self-center">
+      <qr-code *ngIf="qrText" [value]="qrText" 
+          size="300" 
+          errorCorrectionLevel="M"></qr-code>
+          <img *ngIf="!qrText" class="qr-placeholder" src="assets/img/qr.png" alt="qr" />
+        </div>
+    </div>
     <div class="button-container">
       <ion-button expand="block" href="/assistancegeneratespec"
         >Volver al menú</ion-button
       >
     </div>
+    <div class = "class="ion-no-padding>
+      {{qrText}}
+    </div>
   </ion-card-content>
+
+  
+ 
 </ion-content>

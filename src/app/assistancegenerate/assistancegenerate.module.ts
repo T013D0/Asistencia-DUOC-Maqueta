@@ -7,14 +7,20 @@ import { IonicModule } from '@ionic/angular';
 import { AssistancegeneratePageRoutingModule } from './assistancegenerate-routing.module';
 
 import { AssistancegeneratePage } from './assistancegenerate.page';
+import { QrCodeModule } from 'ng-qrcode';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AssistancegeneratePageRoutingModule
+    AssistancegeneratePageRoutingModule,
+    QrCodeModule
   ],
   declarations: [AssistancegeneratePage]
 })
-export class AssistancegeneratePageModule {}
+export class AssistancegeneratePageModule {
+  
+
+
+}

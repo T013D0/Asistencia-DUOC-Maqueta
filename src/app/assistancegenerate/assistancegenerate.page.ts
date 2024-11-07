@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AssistancegeneratePage implements OnInit {
 
+
+  qrText = 'prueba';
+
   constructor() { }
 
   ngOnInit() {
