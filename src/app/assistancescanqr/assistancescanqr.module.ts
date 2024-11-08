@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AssistancescanqrPageRoutingModule } from './assistancescanqr-routing.module';
 
 import { AssistancescanqrPage } from './assistancescanqr.page';
+import { BarcodeScanningModalComponent } from './barcode-scanning-modal.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { AssistancescanqrPage } from './assistancescanqr.page';
     IonicModule,
     AssistancescanqrPageRoutingModule
   ],
-  declarations: [AssistancescanqrPage]
+  declarations: [AssistancescanqrPage, BarcodeScanningModalComponent]
 })
 export class AssistancescanqrPageModule {}

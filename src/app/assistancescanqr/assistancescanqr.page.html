@@ -9,11 +9,23 @@
 
 <ion-content>
   <ion-card-content>
-    <ion-img src="https://i.pinimg.com/736x/f9/58/18/f95818f914844d2b1cf7a45b232061d1.jpg"></ion-img>
+    <ion-button class="submit" expand="block" (click)="startScan()">Escanear</ion-button>
     <div class="button-container">
       <ion-button expand="block" href="/tabs/tab3">Volver al menú</ion-button>
     </div>
   </ion-card-content>
+
+  <!---============  SCAN RESULT ===========-->
+  <ion-item class="result" *ngIf="scanResult" lines="none">
+   <ion-label>
+   <p>
+    Scan Result
+   </p>
+   <div>
+    {{scanResult}}
+   </div>
+  </ion-label>
+    </ion-item>
 </ion-content>
 
 
