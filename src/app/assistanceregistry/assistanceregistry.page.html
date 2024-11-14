@@ -2,13 +2,33 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Asistencia a clases</ion-card-title>
-      <ion-card-subtitle>Programación Movil - Clase 1</ion-card-subtitle>
-    </ion-card-header>
+  <!-- Conditional rendering based on loading state -->
+  <ng-container *ngIf="isLoading; else content">
+    <!-- Skeleton cards for loading state -->
+    <ion-card *ngFor="let item of [1, 2, 3, 4]"> <!-- Placeholder for four classes -->
+      <ion-card-header>
+        <ion-skeleton-text animated style="width: 100%; height: 20px;"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 60%; height: 15px;"></ion-skeleton-text>
+      </ion-card-header>
 
-    <ion-card-content>
+      <ion-card-content>
+        <ion-item *ngFor="let student of [1, 2, 3, 4, 5]">
+          <ion-checkbox justify="end" disabled="true">
+            <ion-skeleton-text animated style="width: 100px; height: 20px;"></ion-skeleton-text>
+          </ion-checkbox>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
+  <ng-template #content>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Asistencia a clases</ion-card-title>
+        <ion-card-subtitle>Programación Movil - Clase 1</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
         <ion-item>
           <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 1</ion-checkbox>
         </ion-item>
@@ -24,84 +44,85 @@
         <ion-item>
           <ion-checkbox justify="end" disabled="true">Estudiante 5</ion-checkbox>
         </ion-item>
-    </ion-card-content>
-  </ion-card>
+      </ion-card-content>
+    </ion-card>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Asistencia a clases</ion-card-title>
-      <ion-card-subtitle>Programación Movil - Clase 2</ion-card-subtitle>
-    </ion-card-header>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Asistencia a clases</ion-card-title>
+        <ion-card-subtitle>Programación Movil - Clase 2</ion-card-subtitle>
+      </ion-card-header>
 
-    <ion-card-content>
-      <ion-item>
-        <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 1</ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-checkbox justify="end" checked="false" disabled="true">Estudiante 2</ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 3</ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-checkbox justify="end" disabled="true">Estudiante 4</ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-checkbox justify="end" disabled="true">Estudiante 5</ion-checkbox>
-      </ion-item>
-  </ion-card-content>
-  </ion-card>
+      <ion-card-content>
+        <ion-item>
+          <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 1</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="end" checked="false" disabled="true">Estudiante 2</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 3</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="end" disabled="true">Estudiante 4</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="end" disabled="true">Estudiante 5</ion-checkbox>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Asistencia a clases</ion-card-title>
-      <ion-card-subtitle>Programación Movil - Clase 3</ion-card-subtitle>
-    </ion-card-header>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Asistencia a clases</ion-card-title>
+        <ion-card-subtitle>Programación Movil - Clase 3</ion-card-subtitle>
+      </ion-card-header>
 
-    <ion-card-content>
-      <ion-item>
-        <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 1</ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 2</ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 3</ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 4</ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 5</ion-checkbox>
-      </ion-item>
-  </ion-card-content>
-  </ion-card>
+      <ion-card-content>
+        <ion-item>
+          <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 1</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 2</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 3</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 4</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 5</ion-checkbox>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Asistencia a clases</ion-card-title>
-      <ion-card-subtitle>Programación Movil - Clase 4</ion-card-subtitle>
-    </ion-card-header>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title >Asistencia a clases</ion-card-title>
+        <ion-card-subtitle>Programación Movil - Clase 4</ion-card-subtitle>
+      </ion-card-header>
 
-    <ion-card-content>
-      <ion-item>
-        <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 1</ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-checkbox justify="end" checked="false" disabled="true">Estudiante 2</ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 3</ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-checkbox justify="end" checked="true" disabled="true" >Estudiante 4</ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 5</ion-checkbox>
-      </ion-item>
-      
-  </ion-card-content>
-  </ion-card>
+      <ion-card-content>
+        <ion-item>
+          <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 1</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="end" checked="false" disabled="true">Estudiante 2</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 3</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 4</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="end" checked="true" disabled="true">Estudiante 5</ion-checkbox>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
+
   <div class="button-container">
     <ion-button expand="block" href="/assistanceprof">Volver al menú</ion-button>
   </div>

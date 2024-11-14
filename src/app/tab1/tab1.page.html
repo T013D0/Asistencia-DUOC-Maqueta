@@ -4,18 +4,23 @@
       <div class="form-container">
         <ion-header collapse="condense">
           <ion-toolbar>
-            <ion-title size="large" class="ion-text-wrap ion-margin-bottom"
-              >Bienvenido a <br />
+            <ion-title size="large" class="ion-text-wrap ion-margin-bottom">
+              Bienvenido a <br />
               <span class="text-color-primary">Duoc UC</span>
-              Asistencia</ion-title
-            >
-            <ion-title size="large" class="ion-text-wrap"
-              >Inicio de sesión</ion-title
-            >
+              Asistencia
+            </ion-title>
+            <ion-title size="large" class="ion-text-wrap">
+              Inicio de sesión
+            </ion-title>
           </ion-toolbar>
         </ion-header>
-        <form #miForm="ngForm" (ngSubmit)="onSubmit()">
-          <ion-item class="login-input">
+
+        <ion-title size="large" class="ion-text-wrap ion-margin-bottom">
+          Bienvenido a <br />
+          <span class="text-color-primary">Duoc UC</span> Asistencia    
+        </ion-title>
+        <form [formGroup]="credentials" (ngSubmit)="login()">
+          <ion-item>
             <ion-icon
               size="small"
               slot="start"
@@ -25,13 +30,14 @@
             <ion-input
               label="Ingresa tu correo"
               label-placement="floating"
-              [(ngModel)]="usr.email"
-              name="email"
+              formControlName="email"
               fill="solid"
               placeholder="correoejemplo@duocuc.cl"
+              type="email"
             ></ion-input>
           </ion-item>
-          <ion-item class="login-inpit">
+
+          <ion-item>
             <ion-icon
               size="small"
               slot="start"
@@ -43,13 +49,19 @@
               label-placement="floating"
               fill="solid"
               placeholder="********"
-              name="password"
-              [(ngModel)]="usr.password"
+              formControlName="password"
               type="password"
             ></ion-input>
           </ion-item>
+
           <div class="button-container">
-            <ion-button id="present-alert" type="submit" [disabled]="miForm.invalid">Iniciar Sesión</ion-button>
+            <ion-button 
+              id="present-alert" 
+              type="submit" 
+              [disabled]="!credentials.valid"
+            >
+              Iniciar Sesión
+            </ion-button>
           </div>
         </form>
       </div>

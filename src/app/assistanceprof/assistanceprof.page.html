@@ -10,30 +10,52 @@
       <ion-title size="large">Asignaturas</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Programacion Movil PGY-4024</ion-card-title>
-    </ion-card-header>
-    
-    <ion-card-content>
-    Registro de asistencia
-    </ion-card-content>
-    <ion-button fill="clear" href="/assistanceregistry"><ion-icon size="large" slot="start" ios="book" md="book"></ion-icon>Usar boton</ion-button>
-  </ion-card>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Programacion de escritorio PGY-2024</ion-card-title>
-    </ion-card-header>
-    
-    <ion-card-content>
-    Registro de asistencia
-    </ion-card-content>
-    <ion-button fill="clear" href="/assistanceregistry1"><ion-icon size="large" slot="start" ios="book" md="book"></ion-icon>Usar boton</ion-button>
-  </ion-card>
-  
+
+  <!-- Conditional rendering based on loading state -->
+  <ng-container *ngIf="isLoading; else content">
+    <!-- Skeleton text for loading state -->
+    <ion-card *ngFor="let item of [1, 2]"> <!-- Placeholder for two cards -->
+      <ion-card-header>
+        <ion-skeleton-text animated style="width: 100%; height: 20px;"></ion-skeleton-text>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-skeleton-text animated style="width: 100%; height: 40px;"></ion-skeleton-text>
+      </ion-card-content>
+      <ion-button fill="clear">
+        <ion-skeleton-text animated style="width: 100px; height: 30px;"></ion-skeleton-text>
+      </ion-button>
+    </ion-card>
+  </ng-container>
+
+  <ng-template #content>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Programacion Movil PGY-4024</ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        Registro de asistencia
+      </ion-card-content>
+      <ion-button fill="clear" href="/assistanceregistry">
+        <ion-icon size="large" slot="start" ios="book" md="book"></ion-icon>Usar boton
+      </ion-button>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Programacion de escritorio PGY-2024</ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        Registro de asistencia
+      </ion-card-content>
+      <ion-button fill="clear" href="/assistanceregistry1">
+        <ion-icon size="large" slot="start" ios="book" md="book"></ion-icon>Usar boton
+      </ion-button>
+    </ion-card>
+  </ng-template>
+
   <div class="button-container">
     <ion-button expand="block" href="/tabs/tab2">Volver al menú</ion-button>
   </div>
-
-
 </ion-content>

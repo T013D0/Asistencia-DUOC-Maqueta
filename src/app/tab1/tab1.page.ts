@@ -1,10 +1,12 @@
-// tab1.page.ts
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TabsPage } from '../tabs/tabs.page';
-import { User } from '../../const/types';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { StorageServiceService } from '../storage-service.service';
+import { SupabaseauthService } from '../supabaseauth.service';
+import { FormBuilder, Validators } from '@angular/forms';
+import { User } from '@supabase/supabase-js';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tab1',
@@ -12,19 +14,28 @@ import { StorageServiceService } from '../storage-service.service';
   styleUrls: ['tab1.page.scss'],
 })
 export class Tab1Page implements OnInit {
-  usr: User = {
-    email: '',
-    password: '',
-    isStudent: false,
-    isTeacher: false,
-  };
+  credentials = this.fb.nonNullable.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+  });
 
   constructor(
+    private fb: FormBuilder,
     private tabsPage: TabsPage,
     private router: Router,
+    private loadingController: LoadingController,
     private alertController: AlertController,
-    private storageService: StorageServiceService
+    private storageService: StorageServiceService,
+    private supabaseauthService: SupabaseauthService
   ) {}
+
+  get email() {
+    return this.credentials.controls.email;
+  }
+
+  get password() {
+    return this.credentials.controls.password;
+  }
 
   ngOnInit() {
     this.tabsPage.hideTabBar = true;
@@ -34,50 +45,58 @@ export class Tab1Page implements OnInit {
     this.tabsPage.hideTabBar = false;
   }
 
-  alertButtons = ['Aceptar'];
-
-  //Redireccion a la pagina despues de aceptar el alert
-  async onSubmit() {
-    const users: User[] = JSON.parse(localStorage.getItem('users') || '[]');
-
-    const user = users.find((u) => u.email === this.usr.email);
-
-    if (!user) {
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'Usuario o contraseña incorrectos',
-        buttons: this.alertButtons,
-      });
-      await alert.present();
-      return;
-    }
-
-    if (user.password !== this.usr.password) {
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'Usuario o contraseña incorrectos',
-        buttons: this.alertButtons,
-      });
-      await alert.present();
-      return;
-    }
-
+  async showAlert(header: string, message: string) {
     const alert = await this.alertController.create({
-      header: 'Bienvenido',
-      message: 'Inicio de sesión exitoso',
-      buttons: this.alertButtons,
+      header,
+      message,
+      buttons: ['Aceptar'],
     });
-
     await alert.present();
+  }
 
-    this.storageService.set('user', JSON.stringify(user));
-
-    if (!user.isStudent) {
-      this.router.navigate(['/tabs/tab2']);
-    } else {
-      this.router.navigate(['/tabs/tab3']);
+  async login() {
+    if (!this.credentials.valid) {
+      await this.showAlert(
+        'Error',
+        'Por favor, completa todos los campos correctamente'
+      );
+      return;
     }
 
-    //this.router.navigate(['/tabs/tab2']);
+    const loading = await this.loadingController.create({
+      message: 'Iniciando sesión...',
+      spinner: 'circular',
+    });
+    await loading.present();
+
+    
+
+    try {
+      const { data, error } = await this.supabaseauthService.signIn({
+        email: this.email.value,
+        password: this.password.value,
+      });
+
+      console.log('Supabase signIn response:', { data, error });
+
+      if (error) {
+        await loading.dismiss();
+        await this.showAlert('Error', 'Usuario o contraseña incorrectos');
+        return;
+      }
+
+      if (data.user) {
+        await this.storageService.set('user', JSON.stringify(data.user));
+        await loading.dismiss();
+        await this.showAlert('Éxito', 'Inicio de sesión exitoso');
+        this.router.navigate(['/tabs/tab2']);
+      }
+    } catch (err) {
+      await loading.dismiss();
+      await this.showAlert(
+        'Error',
+        'Ocurrió un error al iniciar sesión. Por favor, intenta nuevamente.'
+      );
+    }
   }
 }
