@@ -6,10 +6,11 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-
-export type asignature = Database["public"]["Tables"]["asignature"]["Row"]
-export type asistance = Database["public"]["Tables"]["asistance"]["Row"]
-export type classes = Database["public"]["Tables"]["class"]["Row"]
+export type Classes = Database["public"]["Tables"]["class"]["Row"]
+export type Asignature = Database["public"]["Tables"]["asignature"]["Row"]
+export type Section = Database["public"]["Tables"]["section"]["Row"]
+export type List = Database["public"]["Tables"]["list"]["Row"]
+export type Asistance = Database["public"]["Tables"]["asistance"]["Row"]
 
 export type Database = {
   graphql_public: {
@@ -60,14 +61,17 @@ export type Database = {
       asistance: {
         Row: {
           classId: string
+          is_present: boolean
           studentId: string
         }
         Insert: {
           classId: string
+          is_present?: boolean
           studentId: string
         }
         Update: {
           classId?: string
+          is_present?: boolean
           studentId?: string
         }
         Relationships: [
@@ -82,26 +86,72 @@ export type Database = {
       }
       class: {
         Row: {
-          asignatureId: string
           date: string
           id: string
+        }
+        Insert: {
+          date: string
+          id?: string
+        }
+        Update: {
+          date?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "class_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "section"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      list: {
+        Row: {
+          sectionId: string
+          student: string
+        }
+        Insert: {
+          sectionId: string
+          student: string
+        }
+        Update: {
+          sectionId?: string
+          student?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "list_sectionId_fkey"
+            columns: ["sectionId"]
+            isOneToOne: false
+            referencedRelation: "section"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      section: {
+        Row: {
+          asignatureId: string
+          id: string
+          number: number
           teacher: string
         }
         Insert: {
           asignatureId: string
-          date: string
           id?: string
+          number: number
           teacher: string
         }
         Update: {
           asignatureId?: string
-          date?: string
           id?: string
+          number?: number
           teacher?: string
         }
         Relationships: [
           {
-            foreignKeyName: "class_asignatureId_fkey"
+            foreignKeyName: "section_asignatureId_fkey"
             columns: ["asignatureId"]
             isOneToOne: false
             referencedRelation: "asignature"

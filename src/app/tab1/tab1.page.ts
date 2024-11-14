@@ -69,8 +69,6 @@ export class Tab1Page implements OnInit {
     });
     await loading.present();
 
-    
-
     try {
       const { data, error } = await this.supabaseauthService.signIn({
         email: this.email.value,
@@ -89,7 +87,12 @@ export class Tab1Page implements OnInit {
         await this.storageService.set('user', JSON.stringify(data.user));
         await loading.dismiss();
         await this.showAlert('Éxito', 'Inicio de sesión exitoso');
-        this.router.navigate(['/tabs/tab2']);
+        //Check if emails contains "profesor.duocuc.cl"
+        if (data.user.email?.includes('@profesor.duocuc.cl')) {
+          this.router.navigate(['/tabs/tab2']);
+        } else {
+          this.router.navigate(['/tabs/tab3']);
+        }
       }
     } catch (err) {
       await loading.dismiss();

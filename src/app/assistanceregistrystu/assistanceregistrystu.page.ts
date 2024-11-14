@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SupabasedataService } from '../supabasedata.service';
+import { SupabaseauthService } from '../supabaseauth.service';
 
 @Component({
   selector: 'app-assistanceregistrystu',
@@ -7,13 +9,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AssistanceregistrystuPage implements OnInit {
   isLoading: boolean = true;
+  sections: any;
+  userId: string = '';
 
-  constructor() {
+  constructor(
+    private supabaseService: SupabasedataService,
+    private supabaseauthService: SupabaseauthService
+  ) {
     this.loadData();
   }
 
   ngOnInit() {
+    this.supabaseauthService.getCurrentUser().subscribe((user) => {
+      this.userId = user?.id || '';
+
+      if (!this.userId) {
+        return;
+      }
+
+      this.supabaseService.getSectionsByUser(this.userId).then((sections) => {
+        this.sections = sections.data;
+      });
+    });
   }
+
   loadData() {
     // Simulate data loading
     setTimeout(() => {

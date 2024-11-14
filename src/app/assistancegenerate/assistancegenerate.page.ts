@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FirestoreService } from '../firestore.service';
+
 import { Router } from '@angular/router';
+import { SupabasedataService } from '../supabasedata.service';
 
 @Component({
   selector: 'app-assistancegenerate',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./assistancegenerate.page.scss'],
 })
 export class AssistancegeneratePage implements OnInit, OnDestroy {
-  classId: string | null | undefined;
+  classId: string = '';
   classData: any;
   qrText: string | null | undefined;
   isOnline: boolean = navigator.onLine;
@@ -17,7 +18,7 @@ export class AssistancegeneratePage implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private firestore: FirestoreService
+    private supabaseService: SupabasedataService
   ) {
     window.addEventListener('online', this.updateOnlineStatus.bind(this));
     window.addEventListener('offline', this.updateOnlineStatus.bind(this));
@@ -31,29 +32,18 @@ export class AssistancegeneratePage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('AssistancegeneratePage');
-    this.classId = this.activatedRoute.snapshot.paramMap.get('id');
-    console.log('classId', this.classId);
-
-    if (this.classId === null) {
-      console.log('No class id');
-      this.router.navigate(['/tabs/tab1']);
-      return;
-    }
-
     if (this.isOnline) {
       this.loadClassData();
     }
   }
 
   loadClassData() {
-    if (this.classId) {
-      this.firestore.getClassData(this.classId).subscribe((data) => {
-        console.log('data', data);
-        this.classData = data[0];
-        this.qrText = JSON.stringify(this.classData);
-      });
-    }
+    this.classId = this.activatedRoute.snapshot.paramMap.get('id') || '';
+
+    this.supabaseService.getClass(this.classId).then((classData) => {
+      this.classData = classData.data;
+      this.qrText = this.classData.id
+    });
   }
 
   ngOnDestroy() {

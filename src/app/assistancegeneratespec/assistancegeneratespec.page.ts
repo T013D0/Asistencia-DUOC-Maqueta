@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { SupabasedataService } from '../supabasedata.service';
+import { SupabaseauthService } from '../supabaseauth.service';
 
 @Component({
   selector: 'app-assistancegeneratespec',
@@ -9,9 +11,13 @@ import { Router } from '@angular/router';
 })
 export class AssistancegeneratespecPage implements OnInit {
   isLoading: boolean = true;
+  sections: any;
+  userId: string = '';
   constructor(
     private alertController: AlertController,
-    private router: Router
+    private router: Router,
+    private supabaseService: SupabasedataService,
+    private supabaseauthService: SupabaseauthService
   ) {
     this.loadData();
   }
@@ -22,12 +28,48 @@ export class AssistancegeneratespecPage implements OnInit {
     }, 2000); // Adjust time as needed
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.supabaseauthService.getCurrentUser().subscribe((user) => {
+      this.userId = user?.id || '';
+
+      if (!this.userId) {
+        return;
+      }
+
+      this.supabaseService
+        .getSectionsByTeacher(this.userId)
+        .then((sections) => {
+          this.sections = sections.data;
+        });
+    });
+  }
 
   alertButtons = ['Aceptar'];
 
-  async gotoGenerate() {
-    this.router.navigate(['/assistancegenerate']);
+  async gotoGenerate(id: string) {
+    const { data, error } = await this.supabaseService.generateClass(id);
+
+    if (error) {
+      const alert = await this.alertController.create({
+        header: 'Error',
+        message: 'Error al generar el codigo QR',
+        buttons: this.alertButtons,
+      });
+      await alert.present();
+      return;
+    }
+
+    if (!data) {
+      const alert = await this.alertController.create({
+        header: 'Error',
+        message: 'Error al generar el codigo QR',
+        buttons: this.alertButtons,
+      });
+      await alert.present();
+      return;
+    }
+
+    this.router.navigate(['/assistancegenerate/' + data.id]);
     const alert = await this.alertController.create({
       header: 'Registro de asistencia',
       message: 'Codigo QR generado con exito',
