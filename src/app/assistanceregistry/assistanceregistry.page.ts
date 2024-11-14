@@ -6,10 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./assistanceregistry.page.scss'],
 })
 export class AssistanceregistryPage implements OnInit {
+  isLoading: boolean = true;
 
-  constructor() { }
+  constructor() {
+    this.loadData(); }
 
   ngOnInit() {
   }
-
+  loadData() {
+    // Simulate data loading
+    setTimeout(() => {
+      this.isLoading = false; // Set to false after loading is complete
+    }, 2000); // Adjust time as needed
+  }
 }

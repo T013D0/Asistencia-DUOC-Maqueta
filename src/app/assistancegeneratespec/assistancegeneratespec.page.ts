@@ -8,10 +8,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./assistancegeneratespec.page.scss'],
 })
 export class AssistancegeneratespecPage implements OnInit {
+  isLoading: boolean = true;
   constructor(
     private alertController: AlertController,
     private router: Router
-  ) {}
+  ) {
+    this.loadData();
+  }
+  loadData() {
+    // Simulate data loading
+    setTimeout(() => {
+      this.isLoading = false; // Set to false after loading is complete
+    }, 2000); // Adjust time as needed
+  }
 
   ngOnInit() {}
 

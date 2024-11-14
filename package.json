@@ -31,6 +31,7 @@
     "@capacitor/status-bar": "6.0.1",
     "@ionic/angular": "^8.0.0",
     "@ionic/storage-angular": "^4.0.0",
+    "@supabase/supabase-js": "^2.46.1",
     "firebase": "^11.0.1",
     "ionicons": "^7.0.0",
     "ng-qrcode": "^18.0.0",

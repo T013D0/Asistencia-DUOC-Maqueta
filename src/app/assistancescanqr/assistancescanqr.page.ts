@@ -9,13 +9,14 @@ import { ModalController, Platform } from '@ionic/angular';
   styleUrls: ['./assistancescanqr.page.scss'],
 })
 export class AssistancescanqrPage implements OnInit {
-
+  isLoading: boolean = true;
   scanResult = '';
 
   constructor(
     private modalController: ModalController,
     private platform: Platform
-  ) { }
+  ) {
+    this.loadData(); }
 
 
 async startScan() {
@@ -52,6 +53,13 @@ async startScan() {
 
 
     }
+  }
+
+  loadData() {
+    // Simulate data loading
+    setTimeout(() => {
+      this.isLoading = false; // Set to false after loading is complete
+    }, 2000); // Adjust time as needed
   }
 
 }
