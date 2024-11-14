@@ -1,35 +1,51 @@
-<ion-header [translucent]="true">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-subtitle>Escanea el qr aqui</ion-card-subtitle>
-      <ion-card-title>Escanea para tu asistencia</ion-card-title>
-    </ion-card-header>
-  </ion-card>
-</ion-header>
+<ng-container *ngIf="isOnline; else offline">
+  <ion-header [translucent]="true">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Escanea el qr aqui</ion-card-subtitle>
+        <ion-card-title>Escanea para tu asistencia</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </ion-header>
 
-<ion-content>
-  <ion-card-content>
-    <div class="ion-content">
-      <div class="ion-align-self-center">
-        <!-- Skeleton text for loading state -->
-        <ion-skeleton-text *ngIf="!qrText" animated style="width: 300px; height: 300px;"></ion-skeleton-text>
-        
-        <!-- QR Code and Placeholder -->
-        <qr-code *ngIf="qrText" [value]="qrText" 
-          size="300" 
-          errorCorrectionLevel="M"></qr-code>
-        <img *ngIf="!qrText" class="qr-placeholder" src="assets/img/qr.png" alt="qr" />
+  <ion-content>
+    <ion-card-content>
+      <div class="ion-content">
+        <div class="ion-align-self-center">
+          <!-- Skeleton text for loading state -->
+          <ion-skeleton-text *ngIf="!qrText" animated style="width: 300px; height: 300px;"></ion-skeleton-text>
+          
+          <!-- QR Code and Placeholder -->
+          <qr-code *ngIf="qrText" [value]="qrText" 
+            size="300" 
+            errorCorrectionLevel="M"></qr-code>
+          <img *ngIf="!qrText" class="qr-placeholder" src="assets/img/qr.png" alt="qr" />
+        </div>
       </div>
-    </div>
-    
-    <div class="button-container">
-      <ion-button expand="block" href="/assistancegeneratespec">
-        Volver al menú
-      </ion-button>
-    </div>
-    
-    <div class="ion-no-padding">
-      {{qrText}}
-    </div>
-  </ion-card-content>
-</ion-content>
+      
+      <div class="button-container">
+        <ion-button expand="block" href="/assistancegeneratespec">
+          Volver al menú
+        </ion-button>
+      </div>
+      
+      <div class="ion-no-padding">
+        {{qrText}}
+      </div>
+    </ion-card-content>
+  </ion-content>
+</ng-container>
+
+<ng-template #offline>
+  <ion-content class="ion-padding">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>No hay conexión a Internet</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Por favor, verifica tu conexión a Internet e intenta nuevamente.</p>
+        <ion-button expand="block" (click)="updateOnlineStatus()">Reintentar</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+</ng-template>

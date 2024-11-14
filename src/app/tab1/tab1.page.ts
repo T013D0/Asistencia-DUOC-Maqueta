@@ -69,11 +69,15 @@ export class Tab1Page implements OnInit {
     });
     await loading.present();
 
+    
+
     try {
       const { data, error } = await this.supabaseauthService.signIn({
         email: this.email.value,
         password: this.password.value,
       });
+
+      console.log('Supabase signIn response:', { data, error });
 
       if (error) {
         await loading.dismiss();
