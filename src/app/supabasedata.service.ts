@@ -76,4 +76,21 @@ export class SupabasedataService {
   getClass(id: string) {
     return this.supabase.from('class').select('*').eq('id', id).single();
   }
+
+  getAsistanceByClassProf(classId: string) {
+    return this.supabase
+      .from('asistance')
+      .select('*, student(*)')
+      .eq('classId', classId);
+  }
+  getAssistanceByClassStudent(classId: string, studentId: string) {
+    return this.supabase
+      .from('asistance')
+      .select('*')
+      .eq('classId', classId)
+      .eq('studentId', studentId)
+      .single();
+  }
+
+
 }
