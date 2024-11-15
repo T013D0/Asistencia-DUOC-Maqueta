@@ -1,7 +1,11 @@
+
 import { BarcodeScanningModalComponent } from './barcode-scanning-modal.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LensFacing, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { ModalController, Platform } from '@ionic/angular';
+import { SupabasedataService } from '../supabasedata.service';
+import { AlertController, AlertButton } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-assistancescanqr',
@@ -9,13 +13,21 @@ import { ModalController, Platform } from '@ionic/angular';
   styleUrls: ['./assistancescanqr.page.scss'],
 })
 export class AssistancescanqrPage implements OnInit, OnDestroy {
+  ngOnInit(): void {
+    // Initialization logic here
+  }
   isLoading: boolean = true;
   scanResult = '';
   isOnline: boolean = navigator.onLine;
+  alertButtons: AlertButton[] = [{ text: 'Aceptar' }];
 
   constructor(
     private modalController: ModalController,
-    private platform: Platform
+    private platform: Platform,
+    private supabaseService: SupabasedataService,
+    private alertController: AlertController,
+    private activatedRoute: ActivatedRoute,
+  
   ) {
     this.loadData();
     window.addEventListener('online', this.updateOnlineStatus.bind(this));
@@ -26,12 +38,16 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
     this.isOnline = navigator.onLine;
   }
 
+  
+
+
+
   async startScan() {
     if (!this.isOnline) {
       console.log('Cannot scan: No internet connection');
       return;
     }
-
+  
     const modal = await this.modalController.create({
       component: BarcodeScanningModalComponent,
       cssClass: 'barcode-scanning-modal',
@@ -41,23 +57,55 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
         LensFacing: LensFacing.Back
       }
     });
-
+  
     await modal.present();
-
+  
     const { data } = await modal.onWillDismiss();
-
+  
     if (data) {
       this.scanResult = data?.barcode?.displayValue;
+      // Call gotoGenerateList with the scanned result
+      const users = JSON.parse(this.activatedRoute.snapshot.paramMap.get('id') || '[]');
+      if (users.length > 0) {
+        await this.gotoGenerateAsistance(this.scanResult, users[0].id);
+      } else {
+        console.error('No users found');
+      }
+    }
+  }
+  async gotoGenerateAsistance(classId: string, studentId: string) {
+    try {
+      const { data, error } = await this.supabaseService.generateAsistance(classId, studentId);
+  
+      if (error) {
+        throw new Error('Error al escanear el código QR');
+      }
+  
+      if (!data) {
+        throw new Error('No se pudo generar el registro de asistencia');
+      }
+  
+      // If successful, show a success message
+      const alert = await this.alertController.create({
+        header: 'Éxito',
+        message: 'Asistencia registrada correctamente',
+        buttons: this.alertButtons,
+      });
+      await alert.present();
+  
+    } catch (error) {
+      const alert = await this.alertController.create({
+        header: 'Error',
+        message: (error as any).message || 'Ocurrió un error inesperado',
+        buttons: this.alertButtons,
+      });
+      await alert.present();
     }
   }
 
-  ngOnInit(): void {
-    if (this.platform.is('capacitor')) {
-      BarcodeScanner.isSupported().then();
-      BarcodeScanner.checkPermissions().then();
-      BarcodeScanner.removeAllListeners();
-    }
-  }
+
+
+
 
   loadData() {
     // Simulate data loading
