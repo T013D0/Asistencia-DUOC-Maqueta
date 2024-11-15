@@ -1,6 +1,7 @@
 import { SupabaseauthService } from './../supabaseauth.service';
 import { Component, OnInit } from '@angular/core';
 import { SupabasedataService } from '../supabasedata.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-assistanceprof',
@@ -17,6 +18,7 @@ export class AssistanceprofPage implements OnInit {
   constructor(
     private supabaseService: SupabasedataService,
     private SupabaseauthService: SupabaseauthService,
+    private router: Router
     
   ) {
     this.loadData();
@@ -38,11 +40,21 @@ export class AssistanceprofPage implements OnInit {
         });
     });
   }
+
+  gotoAsistanceRegistry(id: string) {
+    this.router.navigate(['/assistanceregistry/' + id]);
+  }
+
+
   loadData() {
     // Simulate data loading
     setTimeout(() => {
       this.isLoading = false; // Set to false after loading is complete
     }, 2000); // Adjust time as needed
   }
+
+
+
+  
 }
 
