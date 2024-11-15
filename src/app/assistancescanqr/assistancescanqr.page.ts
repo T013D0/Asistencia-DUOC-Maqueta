@@ -1,4 +1,3 @@
-
 import { BarcodeScanningModalComponent } from './barcode-scanning-modal.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LensFacing, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
@@ -31,7 +30,6 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
     private alertController: AlertController,
     private activatedRoute: ActivatedRoute,
     private supabaseauthService: SupabaseauthService
-  
   ) {
     this.loadData();
     window.addEventListener('online', this.updateOnlineStatus.bind(this));
@@ -42,58 +40,56 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
     this.isOnline = navigator.onLine;
   }
 
-  
-
-
-
   async startScan() {
     if (!this.isOnline) {
       console.log('Cannot scan: No internet connection');
       return;
     }
-  
+
     const modal = await this.modalController.create({
       component: BarcodeScanningModalComponent,
       cssClass: 'barcode-scanning-modal',
       showBackdrop: false,
-      componentProps: { 
+      componentProps: {
         formats: [],
-        LensFacing: LensFacing.Back
-      }
+        LensFacing: LensFacing.Back,
+      },
     });
-  
+
     await modal.present();
-  
+
     const { data } = await modal.onWillDismiss();
-  
+
     if (data) {
       this.scanResult = data?.barcode?.displayValue;
       // Call gotoGenerateList with the scanned result
       this.supabaseauthService.getCurrentUser().subscribe((user) => {
         this.userId = user?.id || '';
-  
+
         if (!this.userId) {
           return;
         }
-  
+
         this.gotoGenerateAsistance(this.scanResult, this.scanResult);
       });
     }
   }
   async gotoGenerateAsistance(classId: string, studentId: string) {
     try {
-      const { data, error } = await this.supabaseService.generateAsistance(classId, studentId);
-      
-  
-      if (error) {  
+      const { data, error } = await this.supabaseService.generateAsistance(
+        classId,
+        studentId
+      );
+
+      if (error) {
         this.scanError = error.message;
         throw new Error('Error al escanear el código QR');
       }
-  
+
       if (!data) {
         throw new Error('No se pudo generar el registro de asistencia');
       }
-  
+
       // If successful, show a success message
       const alert = await this.alertController.create({
         header: 'Éxito',
@@ -101,7 +97,6 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
         buttons: this.alertButtons,
       });
       await alert.present();
-  
     } catch (error) {
       const alert = await this.alertController.create({
         header: 'Error',
@@ -111,10 +106,6 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
       await alert.present();
     }
   }
-
-
-
-
 
   loadData() {
     // Simulate data loading
