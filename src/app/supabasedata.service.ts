@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from 'src/environments/environment';
@@ -53,6 +54,14 @@ export class SupabasedataService {
     return this.supabase
     .from('class')
     .insert({sectionId: sectionId, date: new Date()})
+    .select('*')
+    .single();
+  }
+
+  generateAsistance(classId: string, studentId: string){
+    return this.supabase
+    .from('asistance')
+    .insert({classId: classId, studentId: studentId, is_present: true})
     .select('*')
     .single();
   }
