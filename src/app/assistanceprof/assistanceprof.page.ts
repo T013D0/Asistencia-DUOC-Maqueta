@@ -32,9 +32,8 @@ export class AssistanceprofPage implements OnInit {
 
       this.supabaseService
         .getAsistanceByClassProf(this.userId)
-        .then((sections: any) => {
+        .then((sections) => {
           this.sections = sections.data;
-          console.log(this.sections);
           
         });
     });

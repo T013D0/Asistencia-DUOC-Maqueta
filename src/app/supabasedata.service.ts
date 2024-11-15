@@ -60,7 +60,9 @@ export class SupabasedataService {
   generateAsistance(classId: string, studentId: string) {
     return this.supabase
       .from('asistance')
-      .insert({ classId: classId, studentId: studentId, is_present: true })
+      .update({ is_present: true })
+      .eq('classId', classId)
+      .eq('studentId', studentId)
       .select('*')
       .single();
   }

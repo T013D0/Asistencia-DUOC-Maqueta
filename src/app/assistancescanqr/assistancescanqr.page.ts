@@ -75,7 +75,7 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
           this.userId
         );
 
-        if (data) {
+        if (data.is_present) {
           const alert = await this.alertController.create({
             header: 'Error',
             message: 'Ya se ha registrado la asistencia para esta clase',
@@ -98,7 +98,7 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
 
       if (error) {
         this.scanError = error.message;
-        throw new Error('Error al escanear el código QR');
+        throw new Error('No pertenece a la clase');
       }
 
       if (!data) {
