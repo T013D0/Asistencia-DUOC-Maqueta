@@ -28,9 +28,9 @@
   </ng-container>
 
   <ng-template #content>
-    <ion-card>
+    <ion-card *ngFor="let section of sections">
       <ion-card-header>
-        <ion-card-title>Programacion Movil PGY-4024</ion-card-title>
+        <ion-card-title>{{sections.asignature.name}} - {{sections.asignature.code}}</ion-card-title>
       </ion-card-header>
       
       <ion-card-content>
@@ -41,18 +41,6 @@
       </ion-button>
     </ion-card>
 
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Programacion de escritorio PGY-2024</ion-card-title>
-      </ion-card-header>
-      
-      <ion-card-content>
-        Registro de asistencia
-      </ion-card-content>
-      <ion-button fill="clear" href="/assistanceregistry1">
-        <ion-icon size="large" slot="start" ios="book" md="book"></ion-icon>Usar boton
-      </ion-button>
-    </ion-card>
   </ng-template>
 
   <div class="button-container">

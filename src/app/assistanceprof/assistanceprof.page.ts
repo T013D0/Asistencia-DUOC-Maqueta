@@ -1,4 +1,6 @@
+import { SupabaseauthService } from './../supabaseauth.service';
 import { Component, OnInit } from '@angular/core';
+import { SupabasedataService } from '../supabasedata.service';
 
 @Component({
   selector: 'app-assistanceprof',
@@ -7,14 +9,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AssistanceprofPage implements OnInit {
   isLoading: boolean = true;
+  sections: any;
+  asistances: any;
+  userId: string = '';
   
 
-  constructor() {
+  constructor(
+    private supabaseService: SupabasedataService,
+    private SupabaseauthService: SupabaseauthService,
+    
+  ) {
     this.loadData();
   }
 
   ngOnInit() {
-    
+    this.SupabaseauthService.getCurrentUser().subscribe((user) => {
+      this.userId = user?.id || '';
+
+      if (!this.userId) {
+        return;
+      }
+
+      this.supabaseService
+        .getAsistanceByClassProf(this.userId)
+        .then((sections: any) => {
+          this.sections = sections.data;
+        });
+    });
   }
   loadData() {
     // Simulate data loading
