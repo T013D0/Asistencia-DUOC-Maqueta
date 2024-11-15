@@ -70,7 +70,7 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
           return;
         }
 
-        this.gotoGenerateAsistance(this.scanResult, this.scanResult);
+        this.gotoGenerateAsistance(this.scanResult, this.userId);
       });
     }
   }
