@@ -6,6 +6,7 @@ import { ModalController, Platform } from '@ionic/angular';
 import { SupabasedataService } from '../supabasedata.service';
 import { AlertController, AlertButton } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
+import { SupabaseauthService } from '../supabaseauth.service';
 
 @Component({
   selector: 'app-assistancescanqr',
@@ -18,6 +19,7 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
   }
   isLoading: boolean = true;
   scanResult = '';
+  userId: string = '';
   isOnline: boolean = navigator.onLine;
   alertButtons: AlertButton[] = [{ text: 'Aceptar' }];
 
@@ -27,6 +29,7 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
     private supabaseService: SupabasedataService,
     private alertController: AlertController,
     private activatedRoute: ActivatedRoute,
+    private supabaseauthService: SupabaseauthService
   
   ) {
     this.loadData();
@@ -65,17 +68,21 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
     if (data) {
       this.scanResult = data?.barcode?.displayValue;
       // Call gotoGenerateList with the scanned result
-      const users = JSON.parse(this.activatedRoute.snapshot.paramMap.get('id') || '[]');
-      if (users.length > 0) {
-        await this.gotoGenerateAsistance(this.scanResult, users[0].id);
-      } else {
-        console.error('No users found');
-      }
+      this.supabaseauthService.getCurrentUser().subscribe((user) => {
+        this.userId = user?.id || '';
+  
+        if (!this.userId) {
+          return;
+        }
+  
+        this.gotoGenerateAsistance(this.scanResult, this.scanResult);
+      });
     }
   }
   async gotoGenerateAsistance(classId: string, studentId: string) {
     try {
       const { data, error } = await this.supabaseService.generateAsistance(classId, studentId);
+      
   
       if (error) {
         throw new Error('Error al escanear el código QR');
