@@ -19,6 +19,7 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
   }
   isLoading: boolean = true;
   scanResult = '';
+  scanError = '';
   userId: string = '';
   isOnline: boolean = navigator.onLine;
   alertButtons: AlertButton[] = [{ text: 'Aceptar' }];
@@ -84,7 +85,8 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
       const { data, error } = await this.supabaseService.generateAsistance(classId, studentId);
       
   
-      if (error) {
+      if (error) {  
+        this.scanError = error.message;
         throw new Error('Error al escanear el código QR');
       }
   
