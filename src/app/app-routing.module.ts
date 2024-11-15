@@ -10,7 +10,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'assistanceregistry',
+    path: 'assistanceregistry/:id',
     loadChildren: () =>
       import('./assistanceregistry/assistanceregistry.module').then(
         (m) => m.AssistanceregistryPageModule
