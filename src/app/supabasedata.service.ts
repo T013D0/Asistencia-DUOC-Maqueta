@@ -77,11 +77,11 @@ export class SupabasedataService {
     return this.supabase.from('class').select('*').eq('id', id).single();
   }
 
-  getAsistanceByClassProf(classId: string) {
+  getAsistanceByClassProf(teacherId: string) {
     return this.supabase
-      .from('asistance')
-      .select('*, student(*)')
-      .eq('classId', classId);
+      .from('section')
+      .select('*, asignature(*)')
+      .eq('teacher', teacherId);
   }
   getAssistanceByClassStudent(classId: string, studentId: string) {
     return this.supabase
@@ -91,6 +91,4 @@ export class SupabasedataService {
       .eq('studentId', studentId)
       .single();
   }
-
-
 }

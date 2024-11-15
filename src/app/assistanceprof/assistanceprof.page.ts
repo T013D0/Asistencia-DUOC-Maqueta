@@ -34,6 +34,8 @@ export class AssistanceprofPage implements OnInit {
         .getAsistanceByClassProf(this.userId)
         .then((sections: any) => {
           this.sections = sections.data;
+          console.log(this.sections);
+          
         });
     });
   }

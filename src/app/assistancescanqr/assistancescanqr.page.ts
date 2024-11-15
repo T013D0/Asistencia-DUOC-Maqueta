@@ -70,20 +70,10 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
           return;
         }
 
-        const { data, error } = await this.supabaseService.isAlreadyAssisted(
+        const { data } = await this.supabaseService.isAlreadyAssisted(
           this.scanResult,
           this.userId
         );
-
-        if (error) {
-          const alert = await this.alertController.create({
-            header: 'Error',
-            message: 'Ocurrió un error al verificar la asistencia',
-            buttons: this.alertButtons,
-          });
-          await alert.present();
-          return;
-        }
 
         if (data) {
           const alert = await this.alertController.create({
