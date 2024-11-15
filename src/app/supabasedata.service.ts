@@ -93,4 +93,8 @@ export class SupabasedataService {
       .eq('studentId', studentId)
       .single();
   }
+
+  getClassBySection(sectionId: string, studentId: string) {
+    return this.supabase.from('asistance').select('*, class(*)').eq('class.sectionId', sectionId).eq('studentId', studentId);
+  }
 }

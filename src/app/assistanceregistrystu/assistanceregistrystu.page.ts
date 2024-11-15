@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SupabasedataService } from '../supabasedata.service';
 import { SupabaseauthService } from '../supabaseauth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-assistanceregistrystu',
@@ -14,7 +15,8 @@ export class AssistanceregistrystuPage implements OnInit {
 
   constructor(
     private supabaseService: SupabasedataService,
-    private supabaseauthService: SupabaseauthService
+    private supabaseauthService: SupabaseauthService,
+    private router: Router
   ) {
     this.loadData();
   }
@@ -29,8 +31,13 @@ export class AssistanceregistrystuPage implements OnInit {
 
       this.supabaseService.getSectionsByUser(this.userId).then((sections) => {
         this.sections = sections.data;
+        console.log(this.sections);
       });
     });
+  }
+
+  gotoAsistance(id: string) {
+    this.router.navigate(['/assistancestudent/' + id]);
   }
 
   loadData() {

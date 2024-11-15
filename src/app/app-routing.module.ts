@@ -4,55 +4,84 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'loginsucess',
-    loadChildren: () => import('./loginsucess/loginsucess.module').then( m => m.LoginsucessPageModule)
+    loadChildren: () =>
+      import('./loginsucess/loginsucess.module').then(
+        (m) => m.LoginsucessPageModule
+      ),
   },
   {
     path: 'assistanceregistry',
-    loadChildren: () => import('./assistanceregistry/assistanceregistry.module').then( m => m.AssistanceregistryPageModule)
+    loadChildren: () =>
+      import('./assistanceregistry/assistanceregistry.module').then(
+        (m) => m.AssistanceregistryPageModule
+      ),
   },
   {
     path: 'assistancescanqr',
-    loadChildren: () => import('./assistancescanqr/assistancescanqr.module').then( m => m.AssistancescanqrPageModule)
+    loadChildren: () =>
+      import('./assistancescanqr/assistancescanqr.module').then(
+        (m) => m.AssistancescanqrPageModule
+      ),
   },
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    loadChildren: () =>
+      import('./tabs/tabs.module').then((m) => m.TabsPageModule),
   },
   {
-    path: 'assistancestudent',
-    loadChildren: () => import('./assistancestudent/assistancestudent.module').then( m => m.AssistancestudentPageModule)
+    path: 'assistancestudent/:id',
+    loadChildren: () =>
+      import('./assistancestudent/assistancestudent.module').then(
+        (m) => m.AssistancestudentPageModule
+      ),
   },
   {
     path: 'assistancegenerate/:id',
-    loadChildren: () => import('./assistancegenerate/assistancegenerate.module').then( m => m.AssistancegeneratePageModule)
+    loadChildren: () =>
+      import('./assistancegenerate/assistancegenerate.module').then(
+        (m) => m.AssistancegeneratePageModule
+      ),
   },
   {
     path: 'assistanceprof',
-    loadChildren: () => import('./assistanceprof/assistanceprof.module').then( m => m.AssistanceprofPageModule)
+    loadChildren: () =>
+      import('./assistanceprof/assistanceprof.module').then(
+        (m) => m.AssistanceprofPageModule
+      ),
   },
   {
     path: 'assistanceregistry1',
-    loadChildren: () => import('./assistanceregistry1/assistanceregistry1.module').then( m => m.Assistanceregistry1PageModule)
+    loadChildren: () =>
+      import('./assistanceregistry1/assistanceregistry1.module').then(
+        (m) => m.Assistanceregistry1PageModule
+      ),
   },
   {
     path: 'assistancestudent1',
-    loadChildren: () => import('./assistancestudent1/assistancestudent1.module').then( m => m.Assistancestudent1PageModule)
+    loadChildren: () =>
+      import('./assistancestudent1/assistancestudent1.module').then(
+        (m) => m.Assistancestudent1PageModule
+      ),
   },
   {
     path: 'assistanceregistrystu',
-    loadChildren: () => import('./assistanceregistrystu/assistanceregistrystu.module').then( m => m.AssistanceregistrystuPageModule)
+    loadChildren: () =>
+      import('./assistanceregistrystu/assistanceregistrystu.module').then(
+        (m) => m.AssistanceregistrystuPageModule
+      ),
   },
   {
     path: 'assistancegeneratespec',
-    loadChildren: () => import('./assistancegeneratespec/assistancegeneratespec.module').then( m => m.AssistancegeneratespecPageModule)
-  }
-
-
+    loadChildren: () =>
+      import('./assistancegeneratespec/assistancegeneratespec.module').then(
+        (m) => m.AssistancegeneratespecPageModule
+      ),
+  },
 ];
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}
