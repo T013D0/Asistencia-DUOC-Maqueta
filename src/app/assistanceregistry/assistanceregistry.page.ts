@@ -20,79 +20,34 @@ export class AssistanceregistryPage implements OnInit {
     private supabaseService: SupabasedataService,
     private supabaseAuthService: SupabaseauthService
   ) {
-    this.loadData(); }
+    this.loadData();
+  }
 
-    ngOnInit() {
-      this.sectionId = this.activeRoute.snapshot.paramMap.get('id') || '';
-  
-      if (!this.sectionId) {
-        return;
-      }
-  
-      this.supabaseAuthService.getCurrentUser().subscribe((user) => {
-        this.studentId = user?.id || '';
-  
-        if (!this.studentId) {
-          return;
-        }
-  
-        this.supabaseService
-          .getClassBySection(this.sectionId, this.studentId)
-          .then((result) => {
-            this.clases = result.data;
-  
-            //Get the index number for each class
-            this.clases = this.clases.map((clase: any, index: number) => {
-              clase.index = index + 1;
-              return clase;
+  ngOnInit() {
+    this.sectionId = this.activeRoute.snapshot.paramMap.get('id') || '';
 
-              this.supabaseService
-              .getAsistance()
-              .then((result) => {
-                this.asistance = result;
-              });
-              
-            });
-          });
-      });
+    if (!this.sectionId) {
+      return;
     }
 
+    this.supabaseAuthService.getCurrentUser().subscribe(async (user) => {
+      this.studentId = user?.id || '';
 
+      if (!this.studentId) {
+        return;
+      }
 
+      const { data, error } =
+        await this.supabaseService.getAsistanceByTeacherOfSection(
+          this.sectionId
+        );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      if (data) {
+        this.asistance = data;
+        console.log(data);
+      }
+    });
+  }
   loadData() {
     // Simulate data loading
     setTimeout(() => {

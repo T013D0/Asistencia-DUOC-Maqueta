@@ -79,11 +79,11 @@ export class SupabasedataService {
     return this.supabase.from('class').select('*').eq('id', id).single();
   }
 
-  getAsistanceByClassProf(teacherId: string) {
+  getAsistanceByClassProfe(sectionId: string) {
     return this.supabase
-      .from('section')
-      .select('*, asignature(*)')
-      .eq('teacher', teacherId);
+      .from('asistance')
+      .select('*, class(*)')
+      .eq('class.sectionId', sectionId);
   }
   getAssistanceByClassStudent(classId: string, studentId: string) {
     return this.supabase
@@ -95,6 +95,36 @@ export class SupabasedataService {
   }
 
   getClassBySection(sectionId: string, studentId: string) {
-    return this.supabase.from('asistance').select('*, class(*)').eq('class.sectionId', sectionId).eq('studentId', studentId);
+    return this.supabase
+      .from('asistance')
+      .select('*, class(*)')
+      .eq('class.sectionId', sectionId)
+      .eq('studentId', studentId);
+  }
+
+  getAsistanceByClassProf(teacherId: string) {
+    return this.supabase
+      .from('section')
+      .select('*, asignature(*)')
+      .eq('teacher', teacherId);
+  }
+
+  getAsistanceByClass(classId: string) {
+    return this.supabase.from('asistance').select('*').eq('classId', classId);
+  }
+
+  getSectionList(sectionId: string) {
+    return this.supabase
+      .from('list')
+      .select('*, section(*, asignature(*)), auth.user(*)')
+      .eq('section', sectionId)
+      .single();
+  }
+
+  getAsistanceByTeacherOfSection(sectionId: string) {
+    return this.supabase
+      .from('asistance')
+      .select('*, class(*, section(*, asignature(*)))')
+      .eq('class.sectionId', sectionId);
   }
 }

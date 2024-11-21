@@ -13,13 +13,11 @@ export class AssistanceprofPage implements OnInit {
   sections: any;
   asistances: any;
   userId: string = '';
-  
 
   constructor(
     private supabaseService: SupabasedataService,
     private SupabaseauthService: SupabaseauthService,
     private router: Router
-    
   ) {
     this.loadData();
   }
@@ -36,7 +34,6 @@ export class AssistanceprofPage implements OnInit {
         .getAsistanceByClassProf(this.userId)
         .then((sections) => {
           this.sections = sections.data;
-          
         });
     });
   }
@@ -45,16 +42,10 @@ export class AssistanceprofPage implements OnInit {
     this.router.navigate(['/assistanceregistry/' + id]);
   }
 
-
   loadData() {
     // Simulate data loading
     setTimeout(() => {
       this.isLoading = false; // Set to false after loading is complete
     }, 2000); // Adjust time as needed
   }
-
-
-
-  
 }
-

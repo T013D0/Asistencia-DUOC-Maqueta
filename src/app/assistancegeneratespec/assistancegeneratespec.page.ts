@@ -49,6 +49,8 @@ export class AssistancegeneratespecPage implements OnInit {
   async gotoGenerate(id: string) {
     const { data, error } = await this.supabaseService.generateClass(id);
 
+    console.log(data);
+
     if (error) {
       const alert = await this.alertController.create({
         header: 'Error',

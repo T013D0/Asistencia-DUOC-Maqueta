@@ -3,6 +3,7 @@ import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Database } from 'src/const/database';
 
 interface SignUpCredentials {
   email: string;
@@ -12,18 +13,20 @@ interface SignUpCredentials {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
+
 export class SupabaseauthService {
   private supabase: SupabaseClient;
-  private currentUser: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+  private currentUser: BehaviorSubject<User | null> =
+    new BehaviorSubject<User | null>(null);
 
   constructor(private router: Router) {
-    this.supabase = createClient(
+    this.supabase = createClient<Database>(
       environment.supabaseUrl,
       environment.supabaseKey
     );
-    
+
     this.supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN') {
         this.currentUser.next(session?.user || null);
@@ -31,7 +34,7 @@ export class SupabaseauthService {
         this.currentUser.next(null);
       }
     });
-    
+
     this.loadUser();
   }
 
@@ -45,20 +48,22 @@ export class SupabaseauthService {
           data: {
             isStudent: credentials.isStudent || false,
             isTeacher: credentials.isTeacher || false,
-          }
-        }
+          },
+        },
       });
 
       if (error) throw error;
 
       if (data.user) {
         // Create a profile for the user
-        const { error: profileError } = await this.supabase.from('profiles').insert({
-          id: data.user.id,
-          email: data.user.email,
-          is_student: credentials.isStudent || false,
-          is_teacher: credentials.isTeacher || false,
-        });
+        const { error: profileError } = await this.supabase
+          .from('profiles')
+          .insert({
+            id: data.user.id,
+            email: data.user.email,
+            is_student: credentials.isStudent || false,
+            is_teacher: credentials.isTeacher || false,
+          });
 
         if (profileError) throw profileError;
       }
@@ -73,7 +78,9 @@ export class SupabaseauthService {
   // ... rest of your service methods ...
 
   async loadUser() {
-    const { data: { user } } = await this.supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await this.supabase.auth.getUser();
     this.currentUser.next(user);
   }
 
