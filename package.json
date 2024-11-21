@@ -31,8 +31,7 @@
     "@capacitor/status-bar": "6.0.1",
     "@ionic/angular": "^8.0.0",
     "@ionic/storage-angular": "^4.0.0",
-    "@supabase/supabase-js": "^2.46.1",
-    "firebase": "^11.0.1",
+    "@supabase/supabase-js": "2.43.1",
     "ionicons": "^7.0.0",
     "ng-qrcode": "^18.0.0",
     "rxjs": "~7.8.0",
@@ -65,7 +64,13 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.4.0"
+    "typescript": "~5.4.0",
+    "supabase": "^1.167.1"
+  },
+  "overrides": {
+    "@supabase/supabase-js": {
+      "@supabase/auth-js": "2.61.0"
+    }
   },
   "description": "An Ionic project"
 }
