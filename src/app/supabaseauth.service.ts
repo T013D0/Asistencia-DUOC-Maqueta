@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
+import { createClient, SupabaseClient, User, Session } from '@supabase/supabase-js';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -8,8 +8,20 @@ import { Database } from 'src/const/database';
 interface SignUpCredentials {
   email: string;
   password: string;
+  metadata?: {
+    name?: string;
+    last_name?: string;
+    rut?: string;
+  };
   isStudent?: boolean;
   isTeacher?: boolean;
+}
+interface SignUpResponse {
+  data: {
+    user: User | null;
+    session: Session | null;
+  } | null;
+  error: Error | null;
 }
 
 @Injectable({
@@ -38,14 +50,14 @@ export class SupabaseauthService {
     this.loadUser();
   }
 
-  async signUp(credentials: SignUpCredentials) {
+  async signUp(credentials: SignUpCredentials): Promise<SignUpResponse> {
     try {
-      // Sign up the user
       const { data, error } = await this.supabase.auth.signUp({
         email: credentials.email,
         password: credentials.password,
         options: {
           data: {
+            ...credentials.metadata,
             isStudent: credentials.isStudent || false,
             isTeacher: credentials.isTeacher || false,
           },
@@ -55,7 +67,6 @@ export class SupabaseauthService {
       if (error) throw error;
 
       if (data.user) {
-        // Create a profile for the user
         const { error: profileError } = await this.supabase
           .from('profiles')
           .insert({
@@ -63,6 +74,7 @@ export class SupabaseauthService {
             email: data.user.email,
             is_student: credentials.isStudent || false,
             is_teacher: credentials.isTeacher || false,
+            ...credentials.metadata,
           });
 
         if (profileError) throw profileError;
@@ -71,9 +83,10 @@ export class SupabaseauthService {
       return { data, error: null };
     } catch (error) {
       console.error('Error in signUp:', error);
-      return { data: null, error };
+      return { data: null, error: error instanceof Error ? error : new Error('Unknown error occurred') };
     }
   }
+
 
   // ... rest of your service methods ...
 

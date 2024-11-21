@@ -3,12 +3,10 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'loginsucess',
-    loadChildren: () =>
-      import('./loginsucess/loginsucess.module').then(
-        (m) => m.LoginsucessPageModule
-      ),
-  },
+    path: '',
+    redirectTo: 'register', // Redirect the default route to the register page
+    pathMatch: 'full',
+  },  
   {
     path: 'assistanceregistry/:id',
     loadChildren: () =>
@@ -77,6 +75,11 @@ const routes: Routes = [
         (m) => m.AssistancegeneratespecPageModule
       ),
   },
+  {
+    path: 'register',
+    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+  },
+
 ];
 @NgModule({
   imports: [
