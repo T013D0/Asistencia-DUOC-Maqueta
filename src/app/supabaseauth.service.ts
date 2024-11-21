@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { createClient, SupabaseClient, User, Session } from '@supabase/supabase-js';
+import {
+  createClient,
+  SupabaseClient,
+  User,
+  Session,
+} from '@supabase/supabase-js';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -12,9 +17,8 @@ interface SignUpCredentials {
     name?: string;
     last_name?: string;
     rut?: string;
+    is_student?: boolean;
   };
-  isStudent?: boolean;
-  isTeacher?: boolean;
 }
 interface SignUpResponse {
   data: {
@@ -27,7 +31,6 @@ interface SignUpResponse {
 @Injectable({
   providedIn: 'root',
 })
-
 export class SupabaseauthService {
   private supabase: SupabaseClient;
   private currentUser: BehaviorSubject<User | null> =
@@ -57,36 +60,26 @@ export class SupabaseauthService {
         password: credentials.password,
         options: {
           data: {
-            ...credentials.metadata,
-            isStudent: credentials.isStudent || false,
-            isTeacher: credentials.isTeacher || false,
+            name: credentials.metadata?.name,
+            last_name: credentials.metadata?.last_name,
+            rut: credentials.metadata?.rut,
+            is_student: credentials.metadata?.is_student || false,
           },
         },
       });
 
       if (error) throw error;
 
-      if (data.user) {
-        const { error: profileError } = await this.supabase
-          .from('profiles')
-          .insert({
-            id: data.user.id,
-            email: data.user.email,
-            is_student: credentials.isStudent || false,
-            is_teacher: credentials.isTeacher || false,
-            ...credentials.metadata,
-          });
-
-        if (profileError) throw profileError;
-      }
-
       return { data, error: null };
     } catch (error) {
       console.error('Error in signUp:', error);
-      return { data: null, error: error instanceof Error ? error : new Error('Unknown error occurred') };
+      return {
+        data: null,
+        error:
+          error instanceof Error ? error : new Error('Unknown error occurred'),
+      };
     }
   }
-
 
   // ... rest of your service methods ...
 

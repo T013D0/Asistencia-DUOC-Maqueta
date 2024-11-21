@@ -104,7 +104,7 @@ export class RegisterPage implements OnInit {
           name: this.name.value,
           last_name: this.last_name.value,
           rut: this.rut.value,
-        }
+        },
       });
 
       if (response.error) {
