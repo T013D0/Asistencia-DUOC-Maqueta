@@ -112,8 +112,8 @@ export class RegisterPage implements OnInit {
     });
     await loading.present();
 
-    const is_student = this.email.value.includes('@alumnos.cl');
-    const is_teacher = this.email.value.includes('@docentes.cl');
+    const is_student = this.email.value.includes('@duocuc.cl');
+    const is_teacher = this.email.value.includes('@profesor.duocuc.cl');
 
     if (!is_student && !is_teacher) {
       await loading.dismiss();
