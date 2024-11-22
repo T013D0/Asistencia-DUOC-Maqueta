@@ -1,55 +1,56 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title class="ion-text-center" size="large">Menu Docente</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding">
+  <div class="menu-container">
+    <h1 class="page-title">Menu Docente</h1>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Menu Docente</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Registro de asistencia</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      Verifica el registro de asistencia a clases en este menú.
-    </ion-card-content>
-    <ion-button fill="clear" href="/assistanceprof"
-      ><ion-icon size="large" slot="start" ios="book" md="book"></ion-icon>Usar
-      boton</ion-button
-    >
-  </ion-card>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title
-        >Genera el codigo qr para registrar la asistencia.</ion-card-title
+    <div class="menu-items">
+      <ion-item
+        button
+        detail="true"
+        routerLink="/assistanceprof"
+        lines="none"
+        class="menu-item"
       >
-    </ion-card-header>
-    <ion-card-content>
-      Usa la camara para registrar tu asistencia a clases.
-    </ion-card-content>
-    <ion-button fill="clear" href="/assistancegeneratespec"
-      ><ion-icon size="large" slot="start" ios="camera" md="camera"></ion-icon
-      >Usar boton</ion-button
-    >
-  </ion-card>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Panel de Administración</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      Accede al panel de administración para gestionar la aplicación.
-    </ion-card-content>
-    <ion-button fill="clear" href="/adminpanel">
-      <ion-icon size="large" slot="start" ios="settings" md="settings"></ion-icon>
-      Usar boton
-    </ion-button>
-  </ion-card>
+        <ion-icon slot="start" name="book-outline"></ion-icon>
+        <ion-label>
+          <h2>Registro de asistencia</h2>
+          <p>Verifica el registro de asistencia a clases</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item
+        button
+        detail="true"
+        routerLink="/assistancegeneratespec"
+        lines="none"
+        class="menu-item"
+      >
+        <ion-icon slot="start" name="qr-code-outline"></ion-icon>
+        <ion-label>
+          <h2>Generar código QR</h2>
+          <p>Genera el código para registrar la asistencia</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item
+        button
+        detail="true"
+        routerLink="/adminpanel"
+        lines="none"
+        class="menu-item"
+      >
+        <ion-icon slot="start" name="settings-outline"></ion-icon>
+        <ion-label>
+          <h2>Panel de Administración</h2>
+          <p>Gestiona la aplicación</p>
+        </ion-label>
+      </ion-item>
+    </div>
+
+    <div class="signout-button-container">
+      <ion-button (click)="signout()" class="signout-button" shape="round">
+        <ion-icon name="log-out-outline"></ion-icon>
+        <span class="button-text">Cerrar Sesión</span>
+      </ion-button>
+    </div>
+  </div>
 </ion-content>
-<ion-button (click)="signout()">
-  <ion-icon size="large" slot="start" ios="log-out" md="log-out"></ion-icon>
-  Cerrar Sesión
-</ion-button>

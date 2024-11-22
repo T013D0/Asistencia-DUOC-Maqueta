@@ -1,0 +1,111 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background-color: #ffffff;
+  padding: 24px;
+}
+
+.skeleton-card,
+.attendance-card {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.skeleton-header {
+  margin-bottom: 16px;
+}
+
+.skeleton-title {
+  height: 24px;
+  background-color: #e0e0e0;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+.skeleton-subtitle {
+  height: 16px;
+  background-color: #e0e0e0;
+  width: 60%;
+  border-radius: 4px;
+}
+
+.skeleton-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.skeleton-checkbox {
+  width: 20px;
+  height: 20px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  margin-right: 12px;
+}
+
+.skeleton-text {
+  height: 16px;
+  background-color: #e0e0e0;
+  width: 80px;
+  border-radius: 4px;
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.attendance-list {
+  margin-bottom: 16px;
+}
+
+.attendance-item {
+  margin-bottom: 12px;
+
+  ion-checkbox {
+    --size: 24px;
+    --checkbox-background-checked: #0054e9;
+    --checkbox-background: #ffffff;
+    --border-color: #d1d1d1;
+    --border-color-checked: #0054e9;
+    --checkmark-color: #ffffff;
+    --border-radius: 50%;
+    --border-width: 2px;
+    --transition: background-color 0.3s, border-color 0.3s;
+
+    &::part(container) {
+      border-radius: 50%;
+      margin-right: 12px;
+      position: relative;
+    }
+
+    &::part(mark) {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%), scale(0.8);
+    }
+  }
+
+  ion-label {
+    font-size: 16px;
+    color: #333;
+  }
+}
+
+.button-container {
+  margin-top: auto;
+}
+
+.back-button {
+  --background: #0054e9;
+  --color: #ffffff;
+  --border-radius: 8px;
+  font-weight: 600;
+}

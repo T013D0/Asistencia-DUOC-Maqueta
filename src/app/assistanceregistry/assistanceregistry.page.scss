@@ -1,0 +1,108 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    background-color: #ffffff;
+    padding: 16px;
+  }
+  
+  .skeleton-container {
+    margin-bottom: 16px;
+  }
+  
+  .skeleton-card {
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  
+  .skeleton-header {
+    height: 24px;
+    background-color: #e0e0e0;
+    margin-bottom: 8px;
+    border-radius: 4px;
+  }
+  
+  .skeleton-subheader {
+    height: 16px;
+    background-color: #e0e0e0;
+    width: 60%;
+    border-radius: 4px;
+  }
+  
+  .course-header {
+    margin-bottom: 24px;
+  
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 4px;
+    }
+  
+    p {
+      font-size: 16px;
+      color: #666;
+    }
+  }
+  
+  .class-list {
+    margin-bottom: 24px;
+  }
+  
+  .class-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+    h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 12px;
+    }
+  }
+  
+  .attendance-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .attendance-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e0e0;
+  
+    &:last-child {
+      border-bottom: none;
+    }
+  
+    span {
+      font-size: 16px;
+      color: #333;
+    }
+  
+    ion-checkbox {
+      --size: 20px;
+      --background-checked: #0054e9;
+      --border-color-checked: #0054e9;
+    }
+  }
+  
+  .button-container {
+    margin-top: auto;
+  }
+  
+  .back-button {
+    --background: #0054e9;
+    --color: #ffffff;
+    --border-radius: 8px;
+    font-weight: 600;
+  }
+  
+  

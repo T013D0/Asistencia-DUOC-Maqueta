@@ -1,47 +1,46 @@
-<ng-container *ngIf="isOnline; else offline">
-  <ion-header [translucent]="true">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-subtitle>Escanea el qr aqui</ion-card-subtitle>
-        <ion-card-title>Escanea para tu asistencia</ion-card-title>
-      </ion-card-header>
-    </ion-card>
-  </ion-header>
+<ion-content class="ion-padding">
+  <div class="page-container">
+    <ng-container *ngIf="isOnline; else offline">
+      <h1 class="page-title">Escanea para tu asistencia</h1>
+      <p class="page-subtitle">Escanea el QR aquí</p>
 
-  <ion-content>
-    <ion-card-content>
-      <div class="ion-content">
-        <div class="ion-align-self-center">
-          <!-- Skeleton text for loading state -->
-          <ion-skeleton-text *ngIf="!qrText" animated style="width: 300px; height: 300px;"></ion-skeleton-text>
-          
-          <!-- QR Code and Placeholder -->
-          <qr-code *ngIf="qrText" [value]="qrText" 
-            size="300" 
-            errorCorrectionLevel="M"></qr-code>
-          <img *ngIf="!qrText" class="qr-placeholder" src="assets/img/qr.png" alt="qr" />
-        </div>
+      <div class="qr-container">
+        <ng-container *ngIf="!qrText; else qrCode">
+          <div class="skeleton-qr"></div>
+        </ng-container>
+        <ng-template #qrCode>
+          <qr-code
+            value="qrText"
+            size="300"
+            errorCorrectionLevel="M"
+          ></qr-code>
+        </ng-template>
       </div>
-      
+
       <div class="button-container">
-        <ion-button expand="block" href="/assistancegeneratespec">
+        <ion-button
+          expand="block"
+          routerLink="/assistancegeneratespec"
+          class="back-button"
+        >
           Volver al menú
         </ion-button>
       </div>
-    </ion-card-content>
-  </ion-content>
-</ng-container>
+    </ng-container>
 
-<ng-template #offline>
-  <ion-content class="ion-padding">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>No hay conexión a Internet</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
+    <ng-template #offline>
+      <div class="offline-container">
+        <ion-icon name="cloud-offline-outline" class="offline-icon"></ion-icon>
+        <h2>No hay conexión a Internet</h2>
         <p>Por favor, verifica tu conexión a Internet e intenta nuevamente.</p>
-        <ion-button expand="block" (click)="updateOnlineStatus()">Reintentar</ion-button>
-      </ion-card-content>
-    </ion-card>
-  </ion-content>
-</ng-template>
+        <ion-button
+          expand="block"
+          (click)="updateOnlineStatus()"
+          class="retry-button"
+        >
+          Reintentar
+        </ion-button>
+      </div>
+    </ng-template>
+  </div>
+</ion-content>

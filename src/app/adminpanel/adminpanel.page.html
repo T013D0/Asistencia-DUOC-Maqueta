@@ -1,23 +1,30 @@
-<ion-content>
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Panel de Administración</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <div class="page-container">
+    <h1 class="page-title">Panel de Administración</h1>
 
-  <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="selectedTab">
-    <ion-segment-button value="asignature">
-      <ion-label>Agregar Asignatura</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="section">
-      <ion-label>Agregar Sección</ion-label>
-    </ion-segment-button>
-  </ion-segment>
+    <div class="segment-container">
+      <ion-segment
+        (ionChange)="segmentChanged($event)"
+        [(ngModel)]="selectedTab"
+        mode="ios"
+      >
+        <ion-segment-button value="asignature" class="segment-button">
+          <ion-label>Asignatura</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="section" class="segment-button">
+          <ion-label>Sección</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
 
-  <!-- Asignature Form -->
-  <ion-content *ngIf="selectedTab === 'asignature'">
-    <form [formGroup]="asignatureForm" (ngSubmit)="addAsignature()">
-      <ion-list>
+    <div class="form-container" [ngSwitch]="selectedTab">
+      <!-- Asignature Form -->
+      <form
+        *ngSwitchCase="'asignature'"
+        [formGroup]="asignatureForm"
+        (ngSubmit)="addAsignature()"
+        class="admin-form"
+      >
         <ion-item>
           <ion-label position="floating">Nombre de Asignatura</ion-label>
           <ion-input formControlName="name" type="text"></ion-input>
@@ -26,28 +33,31 @@
           <ion-label position="floating">Código de Asignatura</ion-label>
           <ion-input formControlName="code" type="text"></ion-input>
         </ion-item>
-      </ion-list>
-      <div class="ion-padding">
-        <ion-button expand="block" type="submit" [disabled]="!asignatureForm.valid">
+        <ion-button
+          expand="block"
+          type="submit"
+          [disabled]="!asignatureForm.valid"
+          class="submit-button"
+        >
           Agregar Asignatura
         </ion-button>
-        <ion-button fill="clear" href="/tabs/tab2" style="display: block; margin: 0 auto;">
-          <ion-icon size="large" slot="start" ios="arrow-undo-outline" md="arrow-undo-outline"></ion-icon>
-          Volver al menu docente
-        </ion-button>
-      </div>
-    </form>
-  </ion-content>
+      </form>
 
-  <!-- Section Form -->
-  <ion-content *ngIf="selectedTab === 'section'">
-    <form [formGroup]="sectionForm" (ngSubmit)="addSection()">
-      <ion-list>
+      <!-- Section Form -->
+      <form
+        *ngSwitchCase="'section'"
+        [formGroup]="sectionForm"
+        (ngSubmit)="addSection()"
+        class="admin-form"
+      >
         <ion-item>
           <ion-label>Asignatura</ion-label>
-          <ion-select formControlName="asignatureId" placeholder="Seleccionar Asignatura">
-            <ion-select-option 
-              *ngFor="let asignature of asignatures" 
+          <ion-select
+            formControlName="asignatureId"
+            placeholder="Seleccionar Asignatura"
+          >
+            <ion-select-option
+              *ngFor="let asignature of asignatures"
               [value]="asignature.id"
             >
               {{asignature.name}} ({{asignature.code}})
@@ -56,11 +66,11 @@
         </ion-item>
         <ion-item>
           <ion-label>Profesor</ion-label>
-          <ion-select formControlName="teacherId" placeholder="Seleccionar Profesor">
-            <ion-select-option 
-              *ngFor="let user of teachers" 
-              [value]="user.id"
-            >
+          <ion-select
+            formControlName="teacherId"
+            placeholder="Seleccionar Profesor"
+          >
+            <ion-select-option *ngFor="let user of teachers" [value]="user.id">
               {{user.name}} {{user.last_name}}
             </ion-select-option>
           </ion-select>
@@ -69,16 +79,22 @@
           <ion-label position="floating">Número de Sección</ion-label>
           <ion-input formControlName="number" type="number"></ion-input>
         </ion-item>
-      </ion-list>
-      <div class="ion-padding">
-        <ion-button expand="block" type="submit" [disabled]="!sectionForm.valid">
+        <ion-button
+          expand="block"
+          type="submit"
+          [disabled]="!sectionForm.valid"
+          class="submit-button"
+        >
           Agregar Sección
         </ion-button>
-        <ion-button fill="clear" href="/tabs/tab2" style="display: block; margin: 0 auto;">
-          <ion-icon size="large" slot="start" ios="arrow-undo-outline" md="arrow-undo-outline"></ion-icon>
-          Volver al menu docente
-        </ion-button>
-      </div>
-    </form>
-  </ion-content>
+      </form>
+    </div>
+
+    <div class="button-container">
+      <ion-button fill="clear" routerLink="/tabs/tab2" class="back-button">
+        <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+        Volver al menú docente
+      </ion-button>
+    </div>
+  </div>
 </ion-content>

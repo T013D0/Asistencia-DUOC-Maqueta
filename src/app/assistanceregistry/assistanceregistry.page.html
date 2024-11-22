@@ -1,57 +1,38 @@
-<ion-header [translucent]="true"> </ion-header>
+<ion-content class="ion-padding">
+  <div class="page-container">
+    <ng-container *ngIf="isLoading; else content">
+      <div class="skeleton-container" *ngFor="let item of [1, 2, 3, 4]">
+        <div class="skeleton-card">
+          <div class="skeleton-header"></div>
+          <div class="skeleton-subheader"></div>
+        </div>
+      </div>
+    </ng-container>
 
-<ion-content>
-  <!-- Conditional rendering based on loading state -->
-  <ng-container *ngIf="isLoading; else content">
-    <!-- Skeleton cards for loading state -->
-    <ion-card *ngFor="let item of [1, 2, 3, 4]">
-      <!-- Placeholder for four classes -->
-      <ion-card-header>
-        <ion-skeleton-text
-          animated
-          style="width: 100%; height: 20px"
-        ></ion-skeleton-text>
-        <ion-skeleton-text
-          animated
-          style="width: 60%; height: 15px"
-        ></ion-skeleton-text>
-      </ion-card-header>
-    </ion-card>
+    <ng-template #content>
+      <div class="course-header">
+        <h1>{{asistance.asignature.name}} - {{asistance.asignature.code}}</h1>
+        <p>{{asistance.class.date}}</p>
+      </div>
 
-  </ng-container>
+      <div class="class-list">
+        <div *ngFor="let clase of asistance.class" class="class-card">
+          <h2>Clase - {{clase.date}}</h2>
+          <ul class="attendance-list">
+            <li *ngFor="let assistance of clase.asistance" class="attendance-item">
+              <span>{{assistance.student.name}} {{assistance.student.last_name}}</span>
+              <ion-checkbox disabled [checked]="assistance.is_present"></ion-checkbox>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </ng-template>
 
-  <ng-template #content>
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>{{asistance.asignature.name}} - {{asistance.asignature.code}}</ion-card-title>
-        <ion-card-subtitle
-          >{{asistance.class.date}}</ion-card-subtitle
-        >
-      </ion-card-header>
-    </ion-card>
-
-    <ion-card *ngFor="let clase of asistance.class">
-      <ion-card-header>
-        <ion-card-title>Clase - {{clase.date}}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-list>
-          <ion-item *ngFor="let assistance of clase.asistance">
-            <ion-label>{{assistance.student.name}} {{assistance.student.last_name}}</ion-label>
-            <ion-checkbox
-              slot="end"
-              disabled=""
-              [checked]="assistance.is_present"
-            ></ion-checkbox>
-          </ion-item>
-        </ion-list>
-      </ion-card-content>
-    </ion-card>
-  </ng-template>
-
-  <div class="button-container">
-    <ion-button expand="block" href="/assistanceprof"
-      >Volver al menú</ion-button
-    >
+    <div class="button-container">
+      <ion-button expand="block" routerLink="/assistanceprof" class="back-button">
+        Volver al menú
+      </ion-button>
+    </div>
   </div>
 </ion-content>
+

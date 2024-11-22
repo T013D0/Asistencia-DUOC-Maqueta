@@ -1,177 +1,75 @@
-<!-- register.page.html -->
-<ion-content [fullscreen]="true">
-  <ion-row class="ion-padding ion-justify-content-center">
-    <ion-col>
-      <div class="form-container">
-        <ion-header collapse="condense">
-          <ion-toolbar>
-            <ion-title size="large" class="ion-text-wrap ion-margin-bottom">
-              Bienvenido a <br />
-              <span class="text-color-primary">Duoc UC</span>
-              Asistencia
-            </ion-title>
-            <ion-title size="large" class="ion-text-wrap">
-              Registro de Usuario
-            </ion-title>
-          </ion-toolbar>
-        </ion-header>
+<ion-content class="ion-padding">
+  <div class="registration-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">
+          <h1>Bienvenido a <br><span class="primary-text">Duoc UC</span> Asistencia</h1>
+        </ion-card-title>
+        <ion-card-subtitle class="ion-text-center">
+          Registro de Usuario
+        </ion-card-subtitle>
+      </ion-card-header>
 
-        <ion-title size="large" class="ion-text-wrap ion-margin-bottom">
-          Bienvenido a <br />
-          <span class="text-color-primary">Duoc UC</span> Asistencia    
-        </ion-title>
-
+      <ion-card-content>
         <form [formGroup]="registrationForm" (ngSubmit)="register()">
-          <!-- Name Input -->
-          <ion-item>
-            <ion-icon
-              size="small"
-              slot="start"
-              ios="person-outline"
-              md="person-outline"
-            ></ion-icon>
-            <ion-input
-              label="Nombre"
-              label-placement="floating"
-              formControlName="name"
-              fill="solid"
-              placeholder="Juan"
-              type="text"
-            ></ion-input>
-          </ion-item>
-          <div class="error-message" *ngIf="name.touched && name.errors">
-            <ion-text color="danger" *ngIf="name.errors?.['required']">
-              El nombre es requerido
+          <ion-list>
+            <ion-item>
+              <ion-icon name="person-outline" slot="start"></ion-icon>
+              <ion-input label="Nombre" labelPlacement="floating" formControlName="name" placeholder="Juan"></ion-input>
+            </ion-item>
+            <ion-text color="danger" *ngIf="name.touched && name.errors">
+              <small *ngIf="name.errors?.['required']">El nombre es requerido</small>
+              <small *ngIf="name.errors?.['minlength']">El nombre debe tener al menos 2 caracteres</small>
             </ion-text>
-            <ion-text color="danger" *ngIf="name.errors?.['minlength']">
-              El nombre debe tener al menos 2 caracteres
-            </ion-text>
-          </div>
 
-          <!-- Last Name Input -->
-          <ion-item>
-            <ion-icon
-              size="small"
-              slot="start"
-              ios="person-outline"
-              md="person-outline"
-            ></ion-icon>
-            <ion-input
-              label="Apellido"
-              label-placement="floating"
-              formControlName="last_name"
-              fill="solid"
-              placeholder="Pérez"
-              type="text"
-            ></ion-input>
-          </ion-item>
-          <div class="error-message" *ngIf="last_name.touched && last_name.errors">
-            <ion-text color="danger" *ngIf="last_name.errors?.['required']">
-              El apellido es requerido
+            <ion-item>
+              <ion-icon name="person-outline" slot="start"></ion-icon>
+              <ion-input label="Apellido" labelPlacement="floating" formControlName="last_name" placeholder="Pérez"></ion-input>
+            </ion-item>
+            <ion-text color="danger" *ngIf="last_name.touched && last_name.errors">
+              <small *ngIf="last_name.errors?.['required']">El apellido es requerido</small>
+              <small *ngIf="last_name.errors?.['minlength']">El apellido debe tener al menos 2 caracteres</small>
             </ion-text>
-            <ion-text color="danger" *ngIf="last_name.errors?.['minlength']">
-              El apellido debe tener al menos 2 caracteres
-            </ion-text>
-          </div>
 
-          <!-- RUT Input -->
-          <ion-item>
-            <ion-icon
-              size="small"
-              slot="start"
-              ios="card-outline"
-              md="card-outline"
-            ></ion-icon>
-            <ion-input
-              label="RUT"
-              label-placement="floating"
-              formControlName="rut"
-              fill="solid"
-              placeholder="12345678-9"
-              type="text"
-            ></ion-input>
-          </ion-item>
-          <div class="error-message" *ngIf="rut.touched && rut.errors">
-            <ion-text color="danger" *ngIf="rut.errors?.['required']">
-              El RUT es requerido
+            <ion-item>
+              <ion-icon name="card-outline" slot="start"></ion-icon>
+              <ion-input label="RUT" labelPlacement="floating" formControlName="rut" placeholder="12345678-9"></ion-input>
+            </ion-item>
+            <ion-text color="danger" *ngIf="rut.touched && rut.errors">
+              <small *ngIf="rut.errors?.['required']">El RUT es requerido</small>
+              <small *ngIf="rut.errors?.['pattern']">El formato del RUT debe ser XXXXXXXX-X</small>
             </ion-text>
-            <ion-text color="danger" *ngIf="rut.errors?.['pattern']">
-              El formato del RUT debe ser XXXXXXXX-X
-            </ion-text>
-          </div>
 
-          <!-- Email Input -->
-          <ion-item>
-            <ion-icon
-              size="small"
-              slot="start"
-              ios="mail-outline"
-              md="mail-outline"
-            ></ion-icon>
-            <ion-input
-              label="Correo electrónico"
-              label-placement="floating"
-              formControlName="email"
-              fill="solid"
-              placeholder="correo@duocuc.cl"
-              type="email"
-            ></ion-input>
-          </ion-item>
-          <div class="error-message" *ngIf="email.touched && email.errors">
-            <ion-text color="danger" *ngIf="email.errors?.['required']">
-              El correo electrónico es requerido
+            <ion-item>
+              <ion-icon name="mail-outline" slot="start"></ion-icon>
+              <ion-input label="Correo electrónico" labelPlacement="floating" formControlName="email" type="email" placeholder="correo@duocuc.cl"></ion-input>
+            </ion-item>
+            <ion-text color="danger" *ngIf="email.touched && email.errors">
+              <small *ngIf="email.errors?.['required']">El correo electrónico es requerido</small>
+              <small *ngIf="email.errors?.['email']">El correo electrónico no es válido</small>
             </ion-text>
-            <ion-text color="danger" *ngIf="email.errors?.['email']">
-              El correo electrónico no es válido
-            </ion-text>
-          </div>
 
-          <!-- Password Input -->
-          <ion-item>
-            <ion-icon
-              size="small"
-              slot="start"
-              ios="key-outline"
-              md="key-outline"
-            ></ion-icon>
-            <ion-input
-              label="Contraseña"
-              label-placement="floating"
-              fill="solid"
-              placeholder="********"
-              formControlName="password"
-              type="password"
-            ></ion-input>
-          </ion-item>
-          <div class="error-message" *ngIf="password.touched && password.errors">
-            <ion-text color="danger" *ngIf="password.errors?.['required']">
-              La contraseña es requerida
+            <ion-item>
+              <ion-icon name="key-outline" slot="start"></ion-icon>
+              <ion-input label="Contraseña" labelPlacement="floating" formControlName="password" type="password" placeholder="********"></ion-input>
+            </ion-item>
+            <ion-text color="danger" *ngIf="password.touched && password.errors">
+              <small *ngIf="password.errors?.['required']">La contraseña es requerida</small>
+              <small *ngIf="password.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</small>
             </ion-text>
-            <ion-text color="danger" *ngIf="password.errors?.['minlength']">
-              La contraseña debe tener al menos 6 caracteres
-            </ion-text>
-          </div>
+          </ion-list>
 
-          <div class="button-container">
-            <ion-button 
-              type="submit" 
-              [disabled]="!registrationForm.valid"
-              expand="block"
-            >
+          <div class="ion-padding">
+            <ion-button expand="block" type="submit" [disabled]="!registrationForm.valid">
               Registrarse
             </ion-button>
-
-            <ion-button 
-              expand="block"
-              fill="clear"
-              routerLink="/tabs/tab1"
-              class="login-button"
-            >
+            <ion-button expand="block" fill="clear" routerLink="/tabs/tab1">
               ¿Ya tienes una cuenta? Iniciar Sesión
             </ion-button>
           </div>
         </form>
-      </div>
-    </ion-col>
-  </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
+

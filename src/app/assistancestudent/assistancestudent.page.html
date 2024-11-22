@@ -1,97 +1,38 @@
-<ion-header [translucent]="true"> </ion-header>
-
-<ion-content>
-  <!-- Conditional rendering based on loading state -->
-  <ng-container *ngIf="isLoading; else content">
-    <!-- Skeleton card for loading state -->
-    <ion-card>
-      <ion-card-header>
-        <ion-skeleton-text
-          animated
-          style="width: 100%; height: 20px"
-        ></ion-skeleton-text>
-        <ion-skeleton-text
-          animated
-          style="width: 60%; height: 15px"
-        ></ion-skeleton-text>
-      </ion-card-header>
-
-      <ion-card-content>
-        <ion-item>
-          <ion-checkbox justify="end" disabled="true">
-            <ion-skeleton-text
-              animated
-              style="width: 80px; height: 20px"
-            ></ion-skeleton-text>
-          </ion-checkbox>
-        </ion-item>
-        <ion-item>
-          <ion-checkbox justify="end" disabled="true">
-            <ion-skeleton-text
-              animated
-              style="width: 80px; height: 20px"
-            ></ion-skeleton-text>
-          </ion-checkbox>
-        </ion-item>
-        <ion-item>
-          <ion-checkbox justify="end" disabled="true">
-            <ion-skeleton-text
-              animated
-              style="width: 80px; height: 20px"
-            ></ion-skeleton-text>
-          </ion-checkbox>
-        </ion-item>
-        <ion-item>
-          <ion-checkbox justify="end" disabled="true">
-            <ion-skeleton-text
-              animated
-              style="width: 80px; height: 20px"
-            ></ion-skeleton-text>
-          </ion-checkbox>
-        </ion-item>
-        <ion-item>
-          <ion-checkbox justify="end" disabled="true">
-            <ion-skeleton-text
-              animated
-              style="width: 80px; height: 20px"
-            ></ion-skeleton-text>
-          </ion-checkbox>
-        </ion-item>
-      </ion-card-content>
-    </ion-card>
-  </ng-container>
-
-  <ng-template #content>
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title
-          >Asistencia a clases Programacion movil PGY-4024</ion-card-title
-        >
-      </ion-card-header>
-
-      <ion-card-content>
-        <ion-item *ngFor="let clase of clases">
-          <ion-checkbox
-            justify="end"
-            *ngIf="clase.is_present"
-            checked="true"
-            disabled="true"
-            >Clase {{clase.index}}</ion-checkbox
-          >
-          <ion-checkbox
-            justify="end"
-            *ngIf="!clase.is_present"
-            checked="false"
-            disabled="true"
-            >Clase {{clase.index}}</ion-checkbox
-          >
-        </ion-item>
-        <div class="button-container">
-          <ion-button expand="block" href="/assistanceregistrystu"
-            >Volver al menú</ion-button
-          >
+<ion-content class="ion-padding">
+  <div class="page-container">
+    <ng-container *ngIf="isLoading; else content">
+      <div class="skeleton-card">
+        <div class="skeleton-header">
+          <div class="skeleton-title"></div>
+          <div class="skeleton-subtitle"></div>
         </div>
-      </ion-card-content>
-    </ion-card>
-  </ng-template>
+        <div class="skeleton-content">
+          <div class="skeleton-item" *ngFor="let item of [1,2,3,4,5]">
+            <div class="skeleton-checkbox"></div>
+            <div class="skeleton-text"></div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #content>
+      <div class="attendance-card">
+        <h1 class="card-title">Asistencia a clases Programacion movil PGY-4024</h1>
+        <div class="attendance-list">
+          <div class="attendance-item" *ngFor="let clase of clases">
+            <ion-checkbox 
+              [checked]="clase.is_present" 
+              disabled="true"
+            >Clase {{clase.index}}</ion-checkbox>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <div class="button-container">
+      <ion-button expand="block" routerLink="/assistanceregistrystu" class="back-button">
+        Volver al menú
+      </ion-button>
+    </div>
+  </div>
 </ion-content>

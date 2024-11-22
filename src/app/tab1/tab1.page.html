@@ -1,77 +1,87 @@
-<ion-content [fullscreen]="true">
-  <ion-row class="ion-padding ion-justify-content-center">
-    <ion-col>
-      <div class="form-container">
-        <ion-header collapse="condense">
-          <ion-toolbar>
-            <ion-title size="large" class="ion-text-wrap ion-margin-bottom">
-              Bienvenido a <br />
-              <span class="text-color-primary">Duoc UC</span>
-              Asistencia
-            </ion-title>
-            <ion-title size="large" class="ion-text-wrap">
-              Inicio de sesión
-            </ion-title>
-          </ion-toolbar>
-        </ion-header>
+<ion-content class="ion-padding">
+  <div class="login-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">
+          <h1>
+            Bienvenido a <br /><span class="secondary-text">Duoc UC</span>
+            Asistencia
+          </h1>
+        </ion-card-title>
+        <ion-card-subtitle class="ion-text-center">
+          Inicio de sesión
+        </ion-card-subtitle>
+      </ion-card-header>
 
-        <ion-title size="large" class="ion-text-wrap ion-margin-bottom">
-          Bienvenido a <br />
-          <span class="text-color-primary">Duoc UC</span> Asistencia    
-        </ion-title>
+      <ion-card-content>
         <form [formGroup]="credentials" (ngSubmit)="login()">
-          <ion-item>
-            <ion-icon
-              size="small"
-              slot="start"
-              ios="document-outline"
-              md="document-outline"
-            ></ion-icon>
-            <ion-input
-              label="Ingresa tu correo"
-              label-placement="floating"
-              formControlName="email"
-              fill="solid"
-              placeholder="correoejemplo@duocuc.cl"
-              type="email"
-            ></ion-input>
-          </ion-item>
+          <ion-list>
+            <ion-item>
+              <ion-icon name="mail-outline" slot="start"></ion-icon>
+              <ion-input
+                label="Ingresa tu correo"
+                labelPlacement="floating"
+                formControlName="email"
+                type="email"
+                placeholder="correoejemplo@duocuc.cl"
+              ></ion-input>
+            </ion-item>
+            <ion-text
+              color="danger"
+              *ngIf="(email.dirty || email.touched) && email.errors"
+            >
+              <small *ngIf="email.errors?.['required']"
+                >El correo electrónico es requerido</small
+              >
+              <small *ngIf="email.errors?.['email']"
+                >Ingrese un correo electrónico válido</small
+              >
+            </ion-text>
 
-          <ion-item>
-            <ion-icon
-              size="small"
-              slot="start"
-              ios="key-outline"
-              md="key-outline"
-            ></ion-icon>
-            <ion-input
-              label="Ingresa tu contraseña"
-              label-placement="floating"
-              fill="solid"
-              placeholder="********"
-              formControlName="password"
-              type="password"
-            ></ion-input>
-          </ion-item>
+            <ion-item>
+              <ion-icon name="key-outline" slot="start"></ion-icon>
+              <ion-input
+                label="Ingresa tu contraseña"
+                labelPlacement="floating"
+                formControlName="password"
+                type="password"
+                placeholder="********"
+              ></ion-input>
+            </ion-item>
+            <ion-text
+              color="danger"
+              *ngIf="(password.dirty || password.touched) && password.errors"
+            >
+              <small *ngIf="password.errors?.['required']"
+                >La contraseña es requerida</small
+              >
+              <small *ngIf="password.errors?.['minlength']"
+                >La contraseña debe tener al menos 6 caracteres</small
+              >
+            </ion-text>
+          </ion-list>
 
-          <div class="button-container">
-            <ion-button 
-              id="present-alert" 
-              type="submit" 
+          <div class="ion-padding">
+            <ion-button
+              expand="block"
+              type="submit"
               [disabled]="!credentials.valid"
+              id="present-alert"
+              class="login-button"
             >
               Iniciar Sesión
             </ion-button>
-            <ion-button 
-              fill="clear" 
+            <ion-button
+              expand="block"
+              fill="clear"
               routerLink="/register"
+              class="register-button"
             >
               Registrarse
             </ion-button>
-
           </div>
         </form>
-      </div>
-    </ion-col>
-  </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
