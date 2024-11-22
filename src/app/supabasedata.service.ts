@@ -42,6 +42,10 @@ export class SupabasedataService {
       .eq('student', idUser);
   }
 
+  getTeachers(){
+    return this.supabase.from('teacher').select('*');
+  }
+
   getSectionsByTeacher(idUser: string) {
     return this.supabase
       .from('section')
@@ -53,6 +57,22 @@ export class SupabasedataService {
     return this.supabase
       .from('class')
       .insert({ sectionId: sectionId, date: new Date() })
+      .select('*')
+      .single();
+  }
+
+  generateSection(asignatureId: string, teacherId: string, number: number) {
+    return this.supabase
+      .from('section')
+      .insert({ asignatureId: asignatureId, teacher: teacherId, number: number })
+      .select('*')
+      .single();
+  }
+
+  generateAsignature(name: string, code: string) {
+    return this.supabase
+      .from('asignature')
+      .insert({ name: name, code: code})
       .select('*')
       .single();
   }
