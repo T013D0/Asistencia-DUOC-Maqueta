@@ -44,7 +44,6 @@ export class AssistanceregistryPage implements OnInit {
 
       if (data) {
         this.asistance = data;
-        console.log(data);
       }
     });
   }

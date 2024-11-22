@@ -16,48 +16,35 @@
           style="width: 60%; height: 15px"
         ></ion-skeleton-text>
       </ion-card-header>
-
-      <ion-card-content>
-        <ion-item *ngFor="let student of [1, 2, 3, 4, 5]">
-          <ion-checkbox justify="end" disabled="true">
-            <ion-skeleton-text
-              animated
-              style="width: 100px; height: 20px"
-            ></ion-skeleton-text>
-          </ion-checkbox>
-        </ion-item>
-      </ion-card-content>
     </ion-card>
+
   </ng-container>
 
   <ng-template #content>
-    <ion-card *ngFor="let asistances of asistance">
+    <ion-card>
       <ion-card-header>
-        <ion-card-title>Asistencia a clases</ion-card-title>
+        <ion-card-title>{{asistance.asignature.name}} - {{asistance.asignature.code}}</ion-card-title>
         <ion-card-subtitle
-          >{{asistances.class.section.asignature.name}} -
-          {{asistances.class.section.asignature.code}}</ion-card-subtitle
+          >{{asistance.class.date}}</ion-card-subtitle
         >
       </ion-card-header>
+    </ion-card>
 
+    <ion-card *ngFor="let clase of asistance.class">
+      <ion-card-header>
+        <ion-card-title>Clase - {{clase.date}}</ion-card-title>
+      </ion-card-header>
       <ion-card-content>
-        <ion-item>
-          <ion-checkbox
-            justify="end"
-            *ngIf="asistances.is_present"
-            checked="true"
-            disabled="true"
-            >Estudiante -
-            {{asistances.class.date}}</ion-checkbox
-          >
-          <ion-checkbox
-            justify="end"
-            *ngIf="!asistances.is_present"
-            disabled="true"
-            >Estudiante -
-            {{asistances.class.date}}</ion-checkbox
-          >
-        </ion-item>
+        <ion-list>
+          <ion-item *ngFor="let assistance of clase.asistance">
+            <ion-label>{{assistance.student.name}} {{assistance.student.last_name}}</ion-label>
+            <ion-checkbox
+              slot="end"
+              disabled=""
+              [checked]="assistance.is_present"
+            ></ion-checkbox>
+          </ion-item>
+        </ion-list>
       </ion-card-content>
     </ion-card>
   </ng-template>
