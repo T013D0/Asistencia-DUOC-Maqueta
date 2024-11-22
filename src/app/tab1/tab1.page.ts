@@ -88,10 +88,10 @@ export class Tab1Page implements OnInit {
         await loading.dismiss();
         await this.showAlert('Éxito', 'Inicio de sesión exitoso');
         //Check if emails contains "profesor.duocuc.cl"
-        if (data.user.user_metadata['is_student']) {
-          this.router.navigate(['/tabs/tab3']);
-        } else {
+        if (data.user.email?.includes('@profesor.duocuc.cl')) {
           this.router.navigate(['/tabs/tab2']);
+        } else {
+          this.router.navigate(['/tabs/tab3']);
         }
       }
     } catch (err) {
