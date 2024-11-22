@@ -7,7 +7,7 @@ const routes: Routes = [
     path: '',
     redirectTo: 'register', // Redirect the default route to the register page
     pathMatch: 'full',
-  },  
+  },
   {
     path: 'assistanceregistry/:id',
     loadChildren: () =>
@@ -78,10 +78,9 @@ const routes: Routes = [
   },
   {
     path: 'register',
-    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule),
-    canActivate: [authGuard]
+    loadChildren: () =>
+      import('./register/register.module').then((m) => m.RegisterPageModule),
   },
-
 ];
 @NgModule({
   imports: [

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { FormBuilder, Validators } from '@angular/forms';
 import { SupabaseauthService } from '../supabaseauth.service';
-import { AuthError } from '@supabase/supabase-js';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -31,7 +31,15 @@ export class RegisterPage implements OnInit {
     private supabaseauthService: SupabaseauthService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.supabaseauthService.getCurrentUser().subscribe((user) => {
+      if (user) {
+        this.router.navigate([
+          user.user_metadata['is_student'] ? '/tabs/tab3' : '/tabs/tab2',
+        ]);
+      }
+    });
+  }
 
   // Getters for easy form control access
   get name() {

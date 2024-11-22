@@ -10,17 +10,9 @@ export const authGuard: CanActivateFn = (route, state) => {
   return authService.getCurrentUser().pipe(
     map((user) => {
       if (user) {
-        console.log(user.user_metadata);
-        
-        if (user.user_metadata['is_student']){
-          router.navigate(['tabs/tab3']);
-        }else{
-          router.navigate(['tabs/tab2']);
-        }
         return true;
       }
-      router.navigate(['register']);
       return false;
     })
-  )
+  );
 };
