@@ -123,8 +123,9 @@ export class SupabasedataService {
 
   getAsistanceByTeacherOfSection(sectionId: string) {
     return this.supabase
-      .from('asistance')
-      .select('*, class(*, section(*, asignature(*)))')
-      .eq('class.sectionId', sectionId);
+      .from('section')
+      .select('*, class(*, asistance(*, student(*))), asignature(*)')
+      .eq('class.sectionId', sectionId)
+      .single();
   }
 }
