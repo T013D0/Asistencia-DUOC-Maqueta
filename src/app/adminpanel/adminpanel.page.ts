@@ -16,17 +16,16 @@ import { AlertController, ToastController } from '@ionic/angular';
 export class AdminpanelPage implements OnInit {
   selectedTab: 'asignature' | 'section' | 'student' = 'asignature';
   selectedSectionId: string | null = null;
-  sectionStudents: any[] = [];
+  sectionStudents: any;
 
   asignatureForm: FormGroup;
   sectionForm: FormGroup;
   studentForm: FormGroup;
 
-  asignatures: any[] = [];
-  teachers: any[] = [];
-  students: any[] = [];
-  sections: any[] = [];
-
+  asignatures: any;
+  teachers: any;
+  students: any;
+  sections: any;
 
   constructor(
     private fb: FormBuilder,
@@ -72,8 +71,6 @@ export class AdminpanelPage implements OnInit {
     }
   }
 
-  
-
   async loadSections() {
     try {
       const { data, error } = await this.supabaseService.getSections();
@@ -109,26 +106,30 @@ export class AdminpanelPage implements OnInit {
   async loadSectionStudents(event: any) {
     const sectionId = event.detail.value;
     this.selectedSectionId = sectionId;
-    
+
     if (!sectionId) {
       this.sectionStudents = [];
       return;
     }
 
     try {
-      const { data, error } = await this.supabaseService.getStudentsBySection(sectionId);
+      const { data, error } = await this.supabaseService.getStudentsBySection(
+        sectionId
+      );
       if (error) {
         throw error;
       }
-      this.sectionStudents = data || [];
-      console.log('Loaded students:', this.sectionStudents); // Debug log
+
+      if (data) {
+        this.sectionStudents = data;
+        console.log(data);
+      }
     } catch (error) {
       console.error('Error loading section students:', error);
       this.presentErrorToast('Error al cargar los estudiantes de la sección');
       this.sectionStudents = [];
     }
   }
-
 
   async addStudentToList() {
     if (this.studentForm.valid) {
@@ -176,8 +177,6 @@ export class AdminpanelPage implements OnInit {
       console.log(data);
     }
   }
-
-
 
   async addAsignature() {
     if (this.asignatureForm.valid) {
@@ -238,7 +237,6 @@ export class AdminpanelPage implements OnInit {
       console.log(data);
     }
   }
-
 
   async presentSuccessToast(message: string) {
     const toast = await this.toastController.create({

@@ -172,7 +172,7 @@ export class SupabasedataService {
   getStudents() {
     return this.supabase.from('student').select('*');
   }
-  
+
   getStudentsBySection(sectionId: string) {
     return this.supabase
       .from('list')
