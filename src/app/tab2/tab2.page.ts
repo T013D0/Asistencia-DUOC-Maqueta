@@ -1,6 +1,7 @@
 import { SupabaseauthService } from './../supabaseauth.service';
 import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { StorageServiceService } from '../storage-service.service';
 
 @Component({
   selector: 'app-tab2',
@@ -8,24 +9,22 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['tab2.page.scss'],
 })
 export class Tab2Page {
-  name: any;
-  last_name: any;
+  profile: any;
   constructor(
     private supabaseauthService: SupabaseauthService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private storageService: StorageServiceService
   ) {}
 
-  ngOnInit() {
-    this.supabaseauthService.getCurrentUser().subscribe((user) => {
-      if (user) {
-        this.name = user.user_metadata['name'];
-        this.last_name = user.user_metadata['last_name'];
-      }
-    });
+  async ngOnInit() {
+    const profile = await this.storageService.get('profile');
+    this.profile = profile;
   }
 
   async signout() {
     await this.supabaseauthService.signOut();
+    this.storageService.remove('user');
+    this.storageService.remove('profile');
     await this.showAlert('Salida exitosa', '¡Hasta luego!');
     window.location.href = 'tabs/tab1';
   }

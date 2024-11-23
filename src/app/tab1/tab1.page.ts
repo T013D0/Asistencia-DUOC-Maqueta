@@ -7,6 +7,7 @@ import { SupabaseauthService } from '../supabaseauth.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { User } from '@supabase/supabase-js';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SupabasedataService } from '../supabasedata.service';
 
 @Component({
   selector: 'app-tab1',
@@ -26,7 +27,8 @@ export class Tab1Page implements OnInit {
     private loadingController: LoadingController,
     private alertController: AlertController,
     private storageService: StorageServiceService,
-    private supabaseauthService: SupabaseauthService
+    private supabaseauthService: SupabaseauthService,
+    private supabaseService: SupabasedataService
   ) {}
 
   get email() {
@@ -43,6 +45,24 @@ export class Tab1Page implements OnInit {
 
   ionViewWillLeave() {
     this.tabsPage.hideTabBar = false;
+  }
+
+  async getUserProfile(id: string, type: 'profesor' | 'alumno') {
+    if (type === 'profesor') {
+      const { data, error } = await this.supabaseService.getTeacher(id);
+      if (error) {
+        console.error('Error fetching profesor:', error);
+        return;
+      }
+      return data;
+    } else {
+      const { data, error } = await this.supabaseService.getStudent(id);
+      if (error) {
+        console.error('Error fetching alumno:', error);
+        return;
+      }
+      return data;
+    }
   }
 
   async showAlert(header: string, message: string) {
@@ -84,7 +104,12 @@ export class Tab1Page implements OnInit {
       }
 
       if (data.user) {
-        await this.storageService.set('user', JSON.stringify(data.user));
+        await this.storageService.set('user', data.user);
+        const profile = await this.getUserProfile(
+          data.user.id,
+          data.user.user_metadata['is_student'] ? 'alumno' : 'profesor'
+        );
+        await this.storageService.set('profile', profile);
         await loading.dismiss();
         await this.showAlert('Éxito', 'Inicio de sesión exitoso');
         //Check if emails contains "profesor.duocuc.cl"

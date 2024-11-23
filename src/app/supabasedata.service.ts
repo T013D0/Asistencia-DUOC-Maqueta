@@ -14,6 +14,14 @@ export class SupabasedataService {
     );
   }
 
+  getStudent(id: string) {
+    return this.supabase.from('student').select('*').eq('id', id).single();
+  }
+
+  getTeacher(id: string) {
+    return this.supabase.from('teacher').select('*').eq('id', id).single();
+  }
+
   getUsers() {
     return this.supabase
       .from('users')
