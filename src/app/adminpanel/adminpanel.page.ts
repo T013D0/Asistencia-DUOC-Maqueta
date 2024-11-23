@@ -14,13 +14,16 @@ import { AlertController, ToastController } from '@ionic/angular';
   styleUrls: ['./adminpanel.page.scss'],
 })
 export class AdminpanelPage implements OnInit {
-  selectedTab: 'asignature' | 'section' = 'asignature';
+  selectedTab: 'asignature' | 'section' | 'student' = 'asignature';
 
   asignatureForm: FormGroup;
   sectionForm: FormGroup;
+  studentForm: FormGroup;
 
   asignatures: any[] = [];
-  teachers: any;
+  teachers: any[] = [];
+  students: any[] = [];
+  sections: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -41,12 +44,86 @@ export class AdminpanelPage implements OnInit {
       teacherId: ['', Validators.required],
       number: ['', [Validators.required, Validators.min(1)]],
     });
+
+    // Student Form
+    this.studentForm = this.fb.group({
+      studentId: ['', Validators.required],
+      sectionId: ['', Validators.required],
+    });
   }
 
   ngOnInit() {
     this.loadAsignatures();
     this.loadTeachers();
+    this.loadStudents();
+    this.loadSections();
   }
+
+
+
+  async loadStudents() {
+    try {
+      const { data, error } = await this.supabaseService.getStudents();
+      if (error) throw error;
+      this.students = data || [];
+    } catch (error) {
+      this.presentErrorToast('Error en cargar estudiantes');
+    }
+  }
+
+  async loadSections() {
+    try {
+      const { data, error } = await this.supabaseService.getSections();
+      if (error) throw error;
+      this.sections = data || [];
+    } catch (error) {
+      this.presentErrorToast('Error en cargar secciones');
+    }
+  }
+
+  async addStudentToSection() {
+    if (this.studentForm.valid) {
+      const { studentId, sectionId } = this.studentForm.value;
+      const { data, error } = await this.supabaseService.addStudentToSection(
+        sectionId,
+        studentId
+      );
+
+      if (error) {
+        this.presentErrorToast('Error al añadir estudiante a la sección');
+        console.error(error);
+        return;
+      }
+
+      if (data) {
+        await this.presentSuccessToast('Estudiante añadido correctamente a la sección');
+        this.studentForm.reset();
+      }
+    }
+  }
+
+  async addStudentToList() {
+    if (this.studentForm.valid) {
+      const { studentId, sectionId } = this.studentForm.value;
+      const { data, error } = await this.supabaseService.addStudentToList(
+        sectionId,
+        studentId
+      );
+
+      if (error) {
+        this.presentErrorToast('Error al añadir estudiante a la lista');
+        console.error(error);
+        return;
+      }
+
+      if (data) {
+        await this.presentSuccessToast('Estudiante añadido correctamente a la lista');
+        this.studentForm.reset();
+      }
+    }
+  }
+
+
 
   async loadAsignatures() {
     try {

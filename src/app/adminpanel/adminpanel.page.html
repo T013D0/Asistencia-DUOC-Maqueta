@@ -14,6 +14,9 @@
         <ion-segment-button value="section" class="segment-button">
           <ion-label>Sección</ion-label>
         </ion-segment-button>
+        <ion-segment-button value="student" class="segment-button">
+          <ion-label>Estudiante</ion-label>
+        </ion-segment-button>
       </ion-segment>
     </div>
 
@@ -88,8 +91,48 @@
           Agregar Sección
         </ion-button>
       </form>
-    </div>
+      <!-- Student Form -->
+      <form
+        *ngSwitchCase="'student'"
+        [formGroup]="studentForm"
+        (ngSubmit)="addStudentToList()"
+        class="admin-form"
+      >
+        <ion-item>
+          <ion-label>Estudiante</ion-label>
+          <ion-select
+            formControlName="studentId"
+            placeholder="Seleccionar Estudiante"
+          >
+            <ion-select-option *ngFor="let student of students" [value]="student.id">
+              {{student.name}} {{student.last_name}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Sección</ion-label>
+          <ion-select
+            formControlName="sectionId"
+            placeholder="Seleccionar Sección"
+          >
+            <ion-select-option *ngFor="let section of sections" [value]="section.id">
+              {{section.asignature.name}} - Sección {{section.number}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-button
+          expand="block"
+          type="submit"
+          [disabled]="!studentForm.valid"
+          class="submit-button"
+        >
+          Añadir Estudiante a lista
+        </ion-button>
+      </form>      
 
+
+    </div>
+    
     <div class="button-container">
       <ion-button fill="clear" routerLink="/tabs/tab2" class="back-button">
         <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
