@@ -140,8 +140,8 @@ export class SupabasedataService {
   getSectionList(sectionId: string) {
     return this.supabase
       .from('list')
-      .select('*, section(*, asignature(*)), auth.user(*)')
-      .eq('section', sectionId)
+      .select('*, section(*, asignature(*)), student(*)')
+      .eq('sectionId', sectionId)
       .single();
   }
 
@@ -171,6 +171,13 @@ export class SupabasedataService {
 
   getStudents() {
     return this.supabase.from('student').select('*');
+  }
+  
+  getStudentsBySection(sectionId: string) {
+    return this.supabase
+      .from('list')
+      .select('*, student(*)')
+      .eq('sectionId', sectionId);
   }
 
   getSections() {
