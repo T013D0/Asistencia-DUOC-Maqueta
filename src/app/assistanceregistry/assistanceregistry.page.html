@@ -12,16 +12,24 @@
     <ng-template #content>
       <div class="course-header">
         <h1>{{asistance.asignature.name}} - {{asistance.asignature.code}}</h1>
-        <p>{{asistance.class.date}}</p>
       </div>
 
       <div class="class-list">
         <div *ngFor="let clase of asistance.class" class="class-card">
           <h2>Clase - {{clase.date}}</h2>
           <ul class="attendance-list">
-            <li *ngFor="let assistance of clase.asistance" class="attendance-item">
-              <span>{{assistance.student.name}} {{assistance.student.last_name}}</span>
-              <ion-checkbox disabled [checked]="assistance.is_present"></ion-checkbox>
+            <li
+              *ngFor="let assistance of clase.asistance"
+              class="attendance-item"
+            >
+              <span
+                >{{assistance.student.name}}
+                {{assistance.student.last_name}}</span
+              >
+              <ion-checkbox
+                disabled
+                [checked]="assistance.is_present"
+              ></ion-checkbox>
             </li>
           </ul>
         </div>
@@ -29,10 +37,13 @@
     </ng-template>
 
     <div class="button-container">
-      <ion-button expand="block" routerLink="/assistanceprof" class="back-button">
+      <ion-button
+        expand="block"
+        routerLink="/assistanceprof"
+        class="back-button"
+      >
         Volver al menú
       </ion-button>
     </div>
   </div>
 </ion-content>
-

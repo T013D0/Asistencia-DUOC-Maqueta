@@ -12,7 +12,7 @@ import { SupabasedataService } from '../supabasedata.service';
 export class AssistancegeneratePage implements OnInit, OnDestroy {
   classId: string = '';
   classData: any;
-  qrText: string | null | undefined;
+  qrText: string = '';
   isOnline: boolean = navigator.onLine;
 
   constructor(

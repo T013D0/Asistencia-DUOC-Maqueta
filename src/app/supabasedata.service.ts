@@ -42,9 +42,7 @@ export class SupabasedataService {
       .eq('student', idUser);
   }
 
-  
-
-  getTeachers(){
+  getTeachers() {
     return this.supabase.from('teacher').select('*');
   }
 
@@ -66,7 +64,11 @@ export class SupabasedataService {
   generateSection(asignatureId: string, teacherId: string, number: number) {
     return this.supabase
       .from('section')
-      .insert({ asignatureId: asignatureId, teacher: teacherId, number: number })
+      .insert({
+        asignatureId: asignatureId,
+        teacher: teacherId,
+        number: number,
+      })
       .select('*')
       .single();
   }
@@ -74,7 +76,7 @@ export class SupabasedataService {
   generateAsignature(name: string, code: string) {
     return this.supabase
       .from('asignature')
-      .insert({ name: name, code: code})
+      .insert({ name: name, code: code })
       .select('*')
       .single();
   }
@@ -147,15 +149,14 @@ export class SupabasedataService {
     return this.supabase
       .from('section')
       .select('*, class(*, asistance(*, student(*))), asignature(*)')
-      .eq('class.sectionId', sectionId)
+      .eq('id', sectionId)
       .single();
   }
-
 
   addStudentToSection(sectionId: string, studentId: string) {
     return this.supabase
       .from('list')
-      .insert({ section: sectionId, student: studentId })
+      .insert({ sectionId: sectionId, student: studentId })
       .select('*')
       .single();
   }
@@ -163,23 +164,16 @@ export class SupabasedataService {
   addStudentToList(sectionId: string, studentId: string) {
     return this.supabase
       .from('list')
-      .insert({ section: sectionId, student: studentId })
+      .insert({ sectionId: sectionId, student: studentId })
       .select('*')
       .single();
   }
 
   getStudents() {
-    return this.supabase.from('users').select('*').eq('role', 'student');
+    return this.supabase.from('student').select('*');
   }
 
   getSections() {
     return this.supabase.from('section').select('*, asignature(*)');
   }
-
-
-
-
-
-
-
 }

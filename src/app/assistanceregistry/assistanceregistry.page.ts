@@ -42,8 +42,13 @@ export class AssistanceregistryPage implements OnInit {
           this.sectionId
         );
 
+      if (error) {
+        console.error('Error fetching data:', error.message);
+      }
+
       if (data) {
         this.asistance = data;
+        console.log(data);
       }
     });
   }

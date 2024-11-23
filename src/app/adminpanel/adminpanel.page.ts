@@ -59,13 +59,11 @@ export class AdminpanelPage implements OnInit {
     this.loadSections();
   }
 
-
-
   async loadStudents() {
     try {
       const { data, error } = await this.supabaseService.getStudents();
       if (error) throw error;
-      this.students = data || [];
+      this.students = data;
     } catch (error) {
       this.presentErrorToast('Error en cargar estudiantes');
     }
@@ -96,7 +94,9 @@ export class AdminpanelPage implements OnInit {
       }
 
       if (data) {
-        await this.presentSuccessToast('Estudiante añadido correctamente a la sección');
+        await this.presentSuccessToast(
+          'Estudiante añadido correctamente a la sección'
+        );
         this.studentForm.reset();
       }
     }
@@ -117,13 +117,13 @@ export class AdminpanelPage implements OnInit {
       }
 
       if (data) {
-        await this.presentSuccessToast('Estudiante añadido correctamente a la lista');
+        await this.presentSuccessToast(
+          'Estudiante añadido correctamente a la lista'
+        );
         this.studentForm.reset();
       }
     }
   }
-
-
 
   async loadAsignatures() {
     try {

@@ -10,7 +10,7 @@
         </ng-container>
         <ng-template #qrCode>
           <qr-code
-            value="qrText"
+            [value]="qrText"
             size="300"
             errorCorrectionLevel="M"
           ></qr-code>
