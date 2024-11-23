@@ -21,162 +21,185 @@
     </div>
 
     <div class="form-container" [ngSwitch]="selectedTab">
-      <!-- Previous forms remain unchanged -->
       <!-- Asignature Form -->
-      <form
-        *ngSwitchCase="'asignature'"
-        [formGroup]="asignatureForm"
-        (ngSubmit)="addAsignature()"
-        class="admin-form"
-      >
-        <!-- Existing asignature form content -->
-        <ion-item>
-          <ion-label position="floating">Nombre de Asignatura</ion-label>
-          <ion-input formControlName="name" type="text"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Código de Asignatura</ion-label>
-          <ion-input formControlName="code" type="text"></ion-input>
-        </ion-item>
-        <ion-button
-          expand="block"
-          type="submit"
-          [disabled]="!asignatureForm.valid"
-          class="submit-button"
-        >
-          Agregar Asignatura
-        </ion-button>
-      </form>
-
-      <!-- Section Form -->
-      <form
-        *ngSwitchCase="'section'"
-        [formGroup]="sectionForm"
-        (ngSubmit)="addSection()"
-        class="admin-form"
-      >
-        <!-- Existing section form content -->
-        <ion-item>
-          <ion-label>Asignatura</ion-label>
-          <ion-select
-            formControlName="asignatureId"
-            placeholder="Seleccionar Asignatura"
-          >
-            <ion-select-option
-              *ngFor="let asignature of asignatures"
-              [value]="asignature.id"
-            >
-              {{asignature.name}} ({{asignature.code}})
-            </ion-select-option>
-          </ion-select>
-        </ion-item>
-        <ion-item>
-          <ion-label>Profesor</ion-label>
-          <ion-select
-            formControlName="teacherId"
-            placeholder="Seleccionar Profesor"
-          >
-            <ion-select-option *ngFor="let user of teachers" [value]="user.id">
-              {{user.name}} {{user.last_name}}
-            </ion-select-option>
-          </ion-select>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Número de Sección</ion-label>
-          <ion-input formControlName="number" type="number"></ion-input>
-        </ion-item>
-        <ion-button
-          expand="block"
-          type="submit"
-          [disabled]="!sectionForm.valid"
-          class="submit-button"
-        >
-          Agregar Sección
-        </ion-button>
-      </form>
-
-      <!-- Updated Student Form with List Display -->
-      <div *ngSwitchCase="'student'" class="student-container">
-        <!-- Add Student Form -->
+      <div *ngSwitchCase="'asignature'">
         <form
-          [formGroup]="studentForm"
-          (ngSubmit)="addStudentToList()"
+          [formGroup]="asignatureForm"
+          (ngSubmit)="addAsignature()"
           class="admin-form"
         >
           <ion-item>
-            <ion-label>Estudiante</ion-label>
-            <ion-select
-              formControlName="studentId"
-              placeholder="Seleccionar Estudiante"
-            >
-              <ion-select-option
-                *ngFor="let student of students"
-                [value]="student.id"
-              >
-                {{student.name}} {{student.last_name}}
-              </ion-select-option>
-            </ion-select>
+            <ion-label position="floating">Nombre de Asignatura</ion-label>
+            <ion-input formControlName="name" type="text"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label>Sección</ion-label>
-            <ion-select
-              formControlName="sectionId"
-              placeholder="Seleccionar Sección"
-              (ionChange)="loadSectionStudents($event)"
-            >
-              <ion-select-option
-                *ngFor="let section of sections"
-                [value]="section.id"
-              >
-                {{section.asignature.name}} - Sección {{section.number}}
-              </ion-select-option>
-            </ion-select>
+            <ion-label position="floating">Código de Asignatura</ion-label>
+            <ion-input formControlName="code" type="text"></ion-input>
           </ion-item>
           <ion-button
             expand="block"
             type="submit"
-            [disabled]="!studentForm.valid"
+            [disabled]="!asignatureForm.valid"
             class="submit-button"
           >
-            Añadir Estudiante a lista
+            Agregar Asignatura
           </ion-button>
         </form>
-
-        <!-- Students List Section -->
-        <div class="students-list-container">
-          <ion-card *ngIf="selectedSectionId">
-            <ion-card-header>
-              <ion-card-title>Estudiantes en la Sección</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <ion-list>
-                <ion-item *ngFor="let student of sectionStudents">
-                  <ion-label>
-                    <h2>
-                      {{student.student.name}} {{student.student.last_name}}
-                    </h2>
-                    <p>
-                      Rut: {{student.student.rut}} Correo:
-                      {{student.student.email}}
-                    </p>
-                  </ion-label>
-                </ion-item>
-                <ion-item *ngIf="sectionStudents.length === 0">
-                  <ion-label>
-                    <h2>No hay estudiantes en esta sección</h2>
-                  </ion-label>
-                </ion-item>
-              </ion-list>
-            </ion-card-content>
-          </ion-card>
-        </div>
+        <ion-button fill="clear" routerLink="/tabs/tab2" class="back-button">
+          <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+          Volver al menú docente
+        </ion-button>
       </div>
-    </div>
-    <div class="button-container">
-      <ion-button fill="clear" routerLink="/tabs/tab2" class="back-button">
-        <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
-        Volver al menú docente
-      </ion-button>
+
+      <!-- Section Form -->
+      <div *ngSwitchCase="'section'">
+        <form
+          [formGroup]="sectionForm"
+          (ngSubmit)="addSection()"
+          class="admin-form"
+        >
+          <ion-item>
+            <ion-label>Asignatura</ion-label>
+            <ion-select
+              formControlName="asignatureId"
+              placeholder="Seleccionar Asignatura"
+            >
+              <ion-select-option
+                *ngFor="let asignature of asignatures"
+                [value]="asignature.id"
+              >
+                {{asignature.name}} ({{asignature.code}})
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label>Profesor</ion-label>
+            <ion-select
+              formControlName="teacherId"
+              placeholder="Seleccionar Profesor"
+            >
+              <ion-select-option *ngFor="let user of teachers" [value]="user.id">
+                {{user.name}} {{user.last_name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Número de Sección</ion-label>
+            <ion-input formControlName="number" type="number"></ion-input>
+          </ion-item>
+          <ion-button
+            expand="block"
+            type="submit"
+            [disabled]="!sectionForm.valid"
+            class="submit-button"
+          >
+            Agregar Sección
+          </ion-button>
+        </form>
+        <ion-button fill="clear" routerLink="/tabs/tab2" class="back-button">
+          <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+          Volver al menú docente
+        </ion-button>
+      </div>
+
+      <!-- Student Management -->
+      <div *ngSwitchCase="'student'" class="student-container">
+        <!-- View Students List Section -->
+        <ion-card class="students-list-card">
+          <ion-card-header>
+            <ion-card-title>Lista de Estudiantes por Sección</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item>
+              <ion-label>Seleccionar Sección</ion-label>
+              <ion-select
+                [(ngModel)]="selectedSectionId"
+                (ionChange)="loadSectionStudents($event)"
+                placeholder="Elegir Sección"
+              >
+                <ion-select-option
+                  *ngFor="let section of sections"
+                  [value]="section.id"
+                >
+                  {{section.asignature.name}} - Sección {{section.number}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-list *ngIf="selectedSectionId">
+              <ion-item *ngFor="let student of sectionStudents">
+                <ion-label>
+                  <h2>{{student.student.name}} {{student.student.last_name}}</h2>
+                  <p>Rut: {{student.student.rut}}</p>
+                  <p>Correo: {{student.student.email}}</p>
+                </ion-label>
+              </ion-item>
+              <ion-item *ngIf="sectionStudents.length === 0">
+                <ion-label>
+                  <h2>No hay estudiantes en esta sección</h2>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Add Student to Section Form -->
+        <ion-card class="add-student-card">
+          <ion-card-header>
+            <ion-card-title>Añadir Estudiante a Sección</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <form
+              [formGroup]="studentForm"
+              (ngSubmit)="addStudentToList()"
+              class="admin-form"
+            >
+              <ion-item>
+                <ion-label>Estudiante</ion-label>
+                <ion-select
+                  formControlName="studentId"
+                  placeholder="Seleccionar Estudiante"
+                >
+                  <ion-select-option
+                    *ngFor="let student of students"
+                    [value]="student.id"
+                  >
+                    {{student.name}} {{student.last_name}}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-item>
+                <ion-label>Sección</ion-label>
+                <ion-select
+                  formControlName="sectionId"
+                  placeholder="Seleccionar Sección"
+                >
+                  <ion-select-option
+                    *ngFor="let section of sections"
+                    [value]="section.id"
+                  >
+                    {{section.asignature.name}} - Sección {{section.number}}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-button
+                expand="block"
+                type="submit"
+                [disabled]="!studentForm.valid"
+                class="submit-button"
+              >
+                Añadir Estudiante a Sección
+              </ion-button>
+            </form>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-button fill="clear" routerLink="/tabs/tab2" class="back-button">
+          <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+          Volver al menú docente
+        </ion-button>
+        
+      </div>
     </div>
   </div>
 </ion-content>
+
