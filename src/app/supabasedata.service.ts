@@ -42,6 +42,8 @@ export class SupabasedataService {
       .eq('student', idUser);
   }
 
+  
+
   getTeachers(){
     return this.supabase.from('teacher').select('*');
   }
@@ -148,4 +150,36 @@ export class SupabasedataService {
       .eq('class.sectionId', sectionId)
       .single();
   }
+
+
+  addStudentToSection(sectionId: string, studentId: string) {
+    return this.supabase
+      .from('list')
+      .insert({ section: sectionId, student: studentId })
+      .select('*')
+      .single();
+  }
+
+  addStudentToList(sectionId: string, studentId: string) {
+    return this.supabase
+      .from('list')
+      .insert({ section: sectionId, student: studentId })
+      .select('*')
+      .single();
+  }
+
+  getStudents() {
+    return this.supabase.from('users').select('*').eq('role', 'student');
+  }
+
+  getSections() {
+    return this.supabase.from('section').select('*, asignature(*)');
+  }
+
+
+
+
+
+
+
 }
