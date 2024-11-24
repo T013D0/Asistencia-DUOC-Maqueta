@@ -125,20 +125,29 @@
                 </ion-select-option>
               </ion-select>
             </ion-item>
-            <ion-list *ngIf="selectedSectionId">
-              <ion-item *ngFor="let student of sectionStudents">
-                <ion-label>
-                  <h2>{{student.student.name}} {{student.student.last_name}}</h2>
-                  <p>Rut: {{student.student.rut}}</p>
-                  <p>Correo: {{student.student.email}}</p>
-                </ion-label>
-              </ion-item>
-              <ion-item *ngIf="sectionStudents.length === 0">
-                <ion-label>
-                  <h2>No hay estudiantes en esta sección</h2>
-                </ion-label>
-              </ion-item>
-            </ion-list>
+            <!-- Replace the existing student list ion-item with this updated version -->
+<ion-list *ngIf="selectedSectionId">
+  <ion-item *ngFor="let student of sectionStudents">
+    <ion-label>
+      <h2>{{student.student.name}} {{student.student.last_name}}</h2>
+      <p>Rut: {{student.student.rut}}</p>
+      <p>Correo: {{student.student.email}}</p>
+    </ion-label>
+    <ion-button
+      slot="end"
+      fill="clear"
+      color="danger"
+      (click)="confirmRemoveStudent(student.student.id, student.student.name + ' ' + student.student.last_name)"
+    >
+      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+    </ion-button>
+  </ion-item>
+  <ion-item *ngIf="sectionStudents.length === 0">
+    <ion-label>
+      <h2>No hay estudiantes en esta sección</h2>
+    </ion-label>
+  </ion-item>
+</ion-list>
           </ion-card-content>
         </ion-card>
 
@@ -191,6 +200,7 @@
               </ion-button>
             </form>
           </ion-card-content>
+          
         </ion-card>
 
         <ion-button fill="clear" routerLink="/tabs/tab2" class="back-button">
