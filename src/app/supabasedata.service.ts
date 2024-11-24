@@ -191,4 +191,18 @@ export class SupabasedataService {
   getSections() {
     return this.supabase.from('section').select('*, asignature(*)');
   }
+
+  removeStudentFromList(sectionId: string, studentId: string) {
+    return this.supabase
+      .from('list')
+      .delete()
+      .match({
+        sectionId: sectionId,
+        student: studentId
+      })
+      .select('*')
+      .single();
+  }
+
+
 }
