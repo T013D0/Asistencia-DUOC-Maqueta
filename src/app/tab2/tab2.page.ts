@@ -3,13 +3,21 @@ import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { StorageServiceService } from '../storage-service.service';
 
+interface profiles {
+  name: string;
+  last_name: string;
+}
+
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
 })
 export class Tab2Page {
-  profile: any;
+  profile: profiles = {
+    name: '',
+    last_name: '',
+  };
   constructor(
     private supabaseauthService: SupabaseauthService,
     private alertController: AlertController,
@@ -18,7 +26,10 @@ export class Tab2Page {
 
   async ngOnInit() {
     const profile = await this.storageService.get('profile');
-    this.profile = profile;
+    this.profile = {
+      name: profile.name,
+      last_name: profile.last_name,
+    };
   }
 
   async signout() {

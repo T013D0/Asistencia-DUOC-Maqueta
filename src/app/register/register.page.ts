@@ -22,6 +22,7 @@ export class RegisterPage implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
+  activated = false;
 
   constructor(
     private fb: FormBuilder,
@@ -32,13 +33,17 @@ export class RegisterPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.supabaseauthService.getCurrentUser().subscribe((user) => {
-      if (user) {
-        this.router.navigate([
-          user.user_metadata['is_student'] ? '/tabs/tab3' : '/tabs/tab2',
-        ]);
-      }
-    });
+    if (!this.activated) {
+      this.supabaseauthService.getCurrentUser().subscribe((user) => {
+        if (this.activated) return;
+        if (user) {
+          this.activated = true;
+          this.router.navigate([
+            user.user_metadata['is_student'] ? '/tabs/tab3' : '/tabs/tab2',
+          ]);
+        }
+      });
+    }
   }
 
   // Getters for easy form control access
