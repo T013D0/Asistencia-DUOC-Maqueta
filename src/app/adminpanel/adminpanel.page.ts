@@ -155,6 +155,8 @@ export class AdminpanelPage implements OnInit {
       }
     }
   }
+  
+
 
   async loadAsignatures() {
     try {
@@ -259,4 +261,56 @@ export class AdminpanelPage implements OnInit {
   segmentChanged(event: any) {
     this.selectedTab = event.detail.value;
   }
+
+
+  async removeStudentFromList(studentId: string, sectionId: string) {
+    try {
+      const { data, error } = await this.supabaseService.removeStudentFromList(
+        sectionId,
+        studentId
+      );
+  
+      if (error) {
+        this.presentErrorToast('Error al eliminar estudiante de la lista');
+        console.error(error);
+        return;
+      }
+  
+      await this.presentSuccessToast('Estudiante eliminado correctamente de la lista');
+      
+      // Refresh the student list
+      await this.loadSectionStudents({ detail: { value: sectionId } });
+    } catch (error) {
+      console.error('Error removing student:', error);
+      this.presentErrorToast('Error al eliminar estudiante de la lista');
+    }
+  }
+
+  async confirmRemoveStudent(studentId: string, studentName: string) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar eliminación',
+      message: `¿Está seguro que desea eliminar a ${studentName} de esta sección?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary'
+        },
+        {
+          text: 'Eliminar',
+          handler: () => {
+            if (this.selectedSectionId) {
+              this.removeStudentFromList(studentId, this.selectedSectionId);
+            } else {
+              this.presentErrorToast('No se ha seleccionado ninguna sección');
+            }
+          }
+        }
+      ]
+    });
+  
+    await alert.present();
+  }
+
+
 }
