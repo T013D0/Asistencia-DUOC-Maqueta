@@ -5,6 +5,10 @@
         <div class="skeleton-card">
           <div class="skeleton-header"></div>
           <div class="skeleton-subheader"></div>
+          <div class="skeleton-item" *ngFor="let i of [1, 2, 3]">
+            <div class="skeleton-text"></div>
+            <div class="skeleton-checkbox"></div>
+          </div>
         </div>
       </div>
     </ng-container>
@@ -16,28 +20,27 @@
 
       <div class="class-list">
         <div *ngFor="let clase of asistance.class" class="class-card">
-          <h2>Clase {{clase.index}}  [{{clase.date}}]</h2>
+          <h2>Clase {{clase.index}} [{{clase.date}}]</h2>
           <ul *ngIf="clase.asistance.length > 0" class="attendance-list">
             <li
               *ngFor="let assistance of clase.asistance"
               class="attendance-item"
             >
-              <span
-                ><p>
-                  <b>Nombre del estudiante:</b>
-                  {{assistance.student.name}}
+              <div class="student-info">
+                <p>
+                  <strong>Nombre:</strong> {{assistance.student.name}}
                   {{assistance.student.last_name}}
                 </p>
-                
-                <p><b>Rut del estudiante:</b>
-                  {{assistance.student.rut}}</p>
-                
-                <p><b>Correo electronico del estudiante:</b>
-                  {{assistance.student.email}}</p></span
-              >
-              <div class="flex items-center">
-                <span *ngIf="assistance.is_present" class="mr-2">Presente </span>
-                <span *ngIf="!assistance.is_present" class="mr-2">Ausente </span>
+                <p><strong>Rut:</strong> {{assistance.student.rut}}</p>
+                <p><strong>Correo:</strong> {{assistance.student.email}}</p>
+              </div>
+              <div class="attendance-status">
+                <span
+                  [class.present]="assistance.is_present"
+                  [class.absent]="!assistance.is_present"
+                >
+                  {{assistance.is_present ? 'Presente' : 'Ausente'}}
+                </span>
                 <ion-checkbox
                   disabled
                   [checked]="assistance.is_present"
