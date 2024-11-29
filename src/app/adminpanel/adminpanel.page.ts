@@ -14,9 +14,11 @@ import { AlertController, ToastController } from '@ionic/angular';
   styleUrls: ['./adminpanel.page.scss'],
 })
 export class AdminpanelPage implements OnInit {
+  isLoading: boolean = true;
   selectedTab: 'asignature' | 'section' | 'student' = 'asignature';
   selectedSectionId: string | null = null;
   sectionStudents: any;
+  
 
   asignatureForm: FormGroup;
   sectionForm: FormGroup;
@@ -55,10 +57,23 @@ export class AdminpanelPage implements OnInit {
   }
 
   ngOnInit() {
-    this.loadAsignatures();
-    this.loadTeachers();
-    this.loadStudents();
-    this.loadSections();
+    this.loadInitialData();
+  }
+
+  loadInitialData() {
+    // Fetch initial data (asignatures, teachers, students, sections)
+    Promise.all([
+      this.loadAsignatures(),
+      this.loadTeachers(),
+      this.loadStudents(),
+      this.loadSections()
+    ]).then(() => {
+      // Set loading to false once all data is loaded
+      this.isLoading = false;
+    }).catch(error => {
+      console.error('Error loading initial data', error);
+      this.isLoading = false;
+    });
   }
 
   async loadStudents() {
@@ -263,7 +278,7 @@ export class AdminpanelPage implements OnInit {
   }
 
 
-  async removeStudentFromList(studentId: string, sectionId: string) {
+  async removeStudentFromList(sectionId: string, studentId: string) {
     try {
       const { data, error } = await this.supabaseService.removeStudentFromList(
         sectionId,
@@ -300,7 +315,7 @@ export class AdminpanelPage implements OnInit {
           text: 'Eliminar',
           handler: () => {
             if (this.selectedSectionId) {
-              this.removeStudentFromList(studentId, this.selectedSectionId);
+              this.removeStudentFromList(this.selectedSectionId, studentId);
             } else {
               this.presentErrorToast('No se ha seleccionado ninguna sección');
             }
@@ -310,6 +325,13 @@ export class AdminpanelPage implements OnInit {
     });
   
     await alert.present();
+  }
+
+  loadData() {
+    // Simulate data loading
+    setTimeout(() => {
+      this.isLoading = false; // Set to false after loading is complete
+    }, 2000); // Adjust time as needed
   }
 
 

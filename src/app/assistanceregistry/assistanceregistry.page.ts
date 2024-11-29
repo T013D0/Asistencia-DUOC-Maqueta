@@ -47,6 +47,9 @@ export class AssistanceregistryPage implements OnInit {
       }
 
       if (data) {
+        data.class.map((c: any, index: any) => {
+          return c.index = index + 1;
+        });
         this.asistance = data;
         console.log(data);
       }

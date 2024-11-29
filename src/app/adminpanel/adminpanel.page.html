@@ -2,27 +2,43 @@
   <div class="page-container">
     <h1 class="page-title">Panel de Administración</h1>
 
-    <div class="segment-container">
-      <ion-segment
-        (ionChange)="segmentChanged($event)"
-        [(ngModel)]="selectedTab"
-        mode="ios"
-      >
-        <ion-segment-button value="asignature" class="segment-button">
-          <ion-label>Asignatura</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="section" class="segment-button">
-          <ion-label>Sección</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="student" class="segment-button">
-          <ion-label>Estudiante</ion-label>
-        </ion-segment-button>
-      </ion-segment>
-    </div>
+    <ng-container *ngIf="isLoading; else content">
+      <div class="skeleton-container" *ngFor="let item of [1, 2, 3]">
+        <div class="skeleton-card">
+          <div class="skeleton-header"></div>
+          <div class="skeleton-content"></div>
+          <div class="skeleton-button"></div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #content>
+      <div class="segment-container">
+        <ion-segment
+          (ionChange)="segmentChanged($event)"
+          [(ngModel)]="selectedTab"
+          mode="ios"
+        >
+          <ion-segment-button value="asignature" class="segment-button">
+            <ion-label>Asignatura</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="section" class="segment-button">
+            <ion-label>Sección</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="student" class="segment-button">
+            <ion-label>Estudiante</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </div>
 
     <div class="form-container" [ngSwitch]="selectedTab">
       <!-- Asignature Form -->
       <div *ngSwitchCase="'asignature'">
+  <ion-card class="add-asignature-card">
+    <ion-card-header>
+      <ion-card-title>Agregar Asignatura</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
         <form
           [formGroup]="asignatureForm"
           (ngSubmit)="addAsignature()"
@@ -45,6 +61,8 @@
             Agregar Asignatura
           </ion-button>
         </form>
+    </ion-card-content>
+  </ion-card>
         <ion-button fill="clear" routerLink="/tabs/tab2" class="back-button">
           <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
           Volver al menú docente
@@ -53,6 +71,11 @@
 
       <!-- Section Form -->
       <div *ngSwitchCase="'section'">
+        <ion-card class="add-section-card">
+          <ion-card-header>
+            <ion-card-title>Agregar Sección</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
         <form
           [formGroup]="sectionForm"
           (ngSubmit)="addSection()"
@@ -96,6 +119,8 @@
             Agregar Sección
           </ion-button>
         </form>
+          </ion-card-content>
+        </ion-card>
         <ion-button fill="clear" routerLink="/tabs/tab2" class="back-button">
           <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
           Volver al menú docente
@@ -210,6 +235,7 @@
         
       </div>
     </div>
+    </ng-template>
   </div>
 </ion-content>
 
