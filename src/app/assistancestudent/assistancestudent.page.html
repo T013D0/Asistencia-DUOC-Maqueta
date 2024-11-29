@@ -24,9 +24,13 @@
         </h1>
         <div class="attendance-list">
           <div class="attendance-item" *ngFor="let clase of clases">
+            
             <ion-checkbox [checked]="clase.is_present" disabled="true"
               >Clase {{clase.index}} [{{clase.class.date}}]</ion-checkbox
             >
+            <div class="flex items-center">
+              <span *ngIf="clase.is_present" class="mr-2">Presente </span>
+                <span *ngIf="!clase.is_present" class="mr-2">Ausente </span></div>
           </div>
         </div>
       </div>
