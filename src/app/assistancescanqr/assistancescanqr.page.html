@@ -1,6 +1,6 @@
 <ion-content class="ion-padding">
   <div class="page-container">
-    <ng-container *ngIf="isOnline; else offline">
+    <ng-container>
       <h1 class="page-title">Escanea para tu asistencia</h1>
       <p class="page-subtitle">Escanea el QR aquí</p>
 
@@ -27,13 +27,5 @@
         </ion-button>
       </div>
     </ng-container>
-
-    <ng-template #offline>
-      <div class="offline-container">
-        <ion-icon name="cloud-offline-outline" class="offline-icon"></ion-icon>
-        <h2>No hay conexión a Internet</h2>
-        <p>Por favor, verifica tu conexión a Internet e intenta nuevamente.</p>
-      </div>
-    </ng-template>
   </div>
 </ion-content>

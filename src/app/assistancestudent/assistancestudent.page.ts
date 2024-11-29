@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SupabasedataService } from '../supabasedata.service';
 import { Asistance, Classes } from 'src/const/database';
 import { SupabaseauthService } from '../supabaseauth.service';
+import { StorageServiceService } from '../storage-service.service';
 
 @Component({
   selector: 'app-assistancestudent',
@@ -18,37 +19,24 @@ export class AssistancestudentPage implements OnInit {
   constructor(
     private activeRoute: ActivatedRoute,
     private supabaseService: SupabasedataService,
-    private supabaseAuthService: SupabaseauthService
+    private supabaseAuthService: SupabaseauthService,
+    private storageService: StorageServiceService
   ) {
     this.loadData();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.sectionId = this.activeRoute.snapshot.paramMap.get('id') || '';
 
     if (!this.sectionId) {
       return;
     }
 
-    this.supabaseAuthService.getCurrentUser().subscribe((user) => {
-      this.studentId = user?.id || '';
+    const asistance = await this.storageService.get(this.sectionId);
 
-      if (!this.studentId) {
-        return;
-      }
-
-      this.supabaseService
-        .getClassBySection(this.sectionId, this.studentId)
-        .then((result) => {
-          this.clases = result.data;
-
-          //Get the index number for each class
-          this.clases = this.clases.map((clase: any, index: number) => {
-            clase.index = index + 1;
-            return clase;
-          });
-        });
-    });
+    if (asistance) {
+      this.clases = asistance;
+    }
   }
 
   loadData() {

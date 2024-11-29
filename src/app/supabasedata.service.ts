@@ -81,6 +81,13 @@ export class SupabasedataService {
       .single();
   }
 
+  getAsignatureFromStudent(id: string) {
+    return this.supabase
+      .from('list')
+      .select('*, section(*, asignature(*))')
+      .eq('student', id);
+  }
+
   generateAsignature(name: string, code: string) {
     return this.supabase
       .from('asignature')
@@ -129,9 +136,9 @@ export class SupabasedataService {
   getClassBySection(sectionId: string, studentId: string) {
     return this.supabase
       .from('asistance')
-      .select('*, class(*)')
-      .eq('class.sectionId', sectionId)
-      .eq('studentId', studentId);
+      .select('*, class(*, section(*, asignature(*)))')
+      .eq('studentId', studentId)
+      .eq('class.sectionId', sectionId);
   }
 
   getAsistanceByClassProf(teacherId: string) {
@@ -198,11 +205,20 @@ export class SupabasedataService {
       .delete()
       .match({
         sectionId: sectionId,
-        student: studentId
+        student: studentId,
       })
       .select('*')
       .single();
   }
 
-
+  getAsistanceByStudent(studentId: string, sectionId: string) {
+    return this.supabase
+      .from('asistance')
+      .select('*, class(*, section(*, asignature(*)))')
+      .match({
+        studentId: studentId,
+        'class.sectionId': sectionId,
+      })
+      .filter('class', 'not.is', null);
+  }
 }

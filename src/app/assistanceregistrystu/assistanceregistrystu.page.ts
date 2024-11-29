@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SupabasedataService } from '../supabasedata.service';
 import { SupabaseauthService } from '../supabaseauth.service';
 import { Router } from '@angular/router';
+import { StorageServiceService } from '../storage-service.service';
 
 @Component({
   selector: 'app-assistanceregistrystu',
@@ -16,24 +17,16 @@ export class AssistanceregistrystuPage implements OnInit {
   constructor(
     private supabaseService: SupabasedataService,
     private supabaseauthService: SupabaseauthService,
+    private storageService: StorageServiceService,
     private router: Router
   ) {
     this.loadData();
   }
 
-  ngOnInit() {
-    this.supabaseauthService.getCurrentUser().subscribe((user) => {
-      this.userId = user?.id || '';
+  async ngOnInit() {
+    const asignatures = await this.storageService.get('asignatures');
 
-      if (!this.userId) {
-        return;
-      }
-
-      this.supabaseService.getSectionsByUser(this.userId).then((sections) => {
-        this.sections = sections.data;
-        console.log(this.sections);
-      });
-    });
+    this.sections = asignatures;
   }
 
   gotoAsistance(id: string) {

@@ -6,13 +6,14 @@ import { SupabasedataService } from '../supabasedata.service';
 import { AlertController, AlertButton } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { SupabaseauthService } from '../supabaseauth.service';
+import { StorageServiceService } from '../storage-service.service';
 
 @Component({
   selector: 'app-assistancescanqr',
   templateUrl: './assistancescanqr.page.html',
   styleUrls: ['./assistancescanqr.page.scss'],
 })
-export class AssistancescanqrPage implements OnInit, OnDestroy {
+export class AssistancescanqrPage implements OnInit {
   ngOnInit(): void {
     // Initialization logic here
   }
@@ -20,32 +21,19 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
   scanResult = '';
   scanError = '';
   userId: string = '';
-  isOnline: boolean = navigator.onLine;
   alertButtons: AlertButton[] = [{ text: 'Aceptar' }];
 
   constructor(
     private modalController: ModalController,
-    private platform: Platform,
     private supabaseService: SupabasedataService,
     private alertController: AlertController,
-    private activatedRoute: ActivatedRoute,
-    private supabaseauthService: SupabaseauthService
+    private supabaseauthService: SupabaseauthService,
+    private storageService: StorageServiceService
   ) {
     this.loadData();
-    window.addEventListener('online', this.updateOnlineStatus.bind(this));
-    window.addEventListener('offline', this.updateOnlineStatus.bind(this));
-  }
-
-  updateOnlineStatus() {
-    this.isOnline = navigator.onLine;
   }
 
   async startScan() {
-    if (!this.isOnline) {
-      console.log('Cannot scan: No internet connection');
-      return;
-    }
-
     const modal = await this.modalController.create({
       component: BarcodeScanningModalComponent,
       cssClass: 'barcode-scanning-modal',
@@ -60,7 +48,7 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
 
     const { data } = await modal.onWillDismiss();
 
-    if (data) {
+    if (data && navigator.onLine) {
       this.scanResult = data?.barcode?.displayValue;
       // Call gotoGenerateList with the scanned result
       this.supabaseauthService.getCurrentUser().subscribe(async (user) => {
@@ -87,6 +75,42 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
 
         this.gotoGenerateAsistance(this.scanResult, this.userId);
       });
+    } else {
+      this.scanResult = data?.barcode?.displayValue;
+
+      const pendingAssistance = await this.storageService.get(
+        'pendingAssistance'
+      );
+
+      if (pendingAssistance) {
+        if (!pendingAssistance.includes(this.scanResult)) {
+          pendingAssistance.push(this.scanResult);
+          await this.storageService.set('pendingAssistance', pendingAssistance);
+
+          const alert = await this.alertController.create({
+            header: 'Éxito',
+            message: 'Asistencia registrada correctamente',
+            buttons: this.alertButtons,
+          });
+          await alert.present();
+        } else {
+          const alert = await this.alertController.create({
+            header: 'Error',
+            message: 'Ya se ha registrado la asistencia para esta clase',
+            buttons: this.alertButtons,
+          });
+          await alert.present();
+        }
+      } else {
+        await this.storageService.set('pendingAssistance', [this.scanResult]);
+
+        const alert = await this.alertController.create({
+          header: 'Éxito',
+          message: 'Asistencia registrada correctamente',
+          buttons: this.alertButtons,
+        });
+        await alert.present();
+      }
     }
   }
   async gotoGenerateAsistance(classId: string, studentId: string) {
@@ -127,11 +151,5 @@ export class AssistancescanqrPage implements OnInit, OnDestroy {
     setTimeout(() => {
       this.isLoading = false; // Set to false after loading is complete
     }, 2000); // Adjust time as needed
-  }
-
-  ngOnDestroy() {
-    // Remove event listeners
-    window.removeEventListener('online', this.updateOnlineStatus.bind(this));
-    window.removeEventListener('offline', this.updateOnlineStatus.bind(this));
   }
 }

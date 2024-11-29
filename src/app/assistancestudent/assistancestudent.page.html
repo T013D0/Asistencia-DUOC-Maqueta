@@ -17,20 +17,27 @@
 
     <ng-template #content>
       <div class="attendance-card">
-        <h1 class="card-title">Asistencia a clases Programacion movil PGY-4024</h1>
+        <h1 class="card-title">
+          Asistencia a clases {{clases[0].class.section.asignature.name}}
+          {{clases[0].class.section.asignature.code}} -
+          {{clases[0].class.section.number}}
+        </h1>
         <div class="attendance-list">
           <div class="attendance-item" *ngFor="let clase of clases">
-            <ion-checkbox 
-              [checked]="clase.is_present" 
-              disabled="true"
-            >Clase {{clase.index}}</ion-checkbox>
+            <ion-checkbox [checked]="clase.is_present" disabled="true"
+              >Clase {{clase.index}}</ion-checkbox
+            >
           </div>
         </div>
       </div>
     </ng-template>
 
     <div class="button-container">
-      <ion-button expand="block" routerLink="/assistanceregistrystu" class="back-button">
+      <ion-button
+        expand="block"
+        routerLink="/assistanceregistrystu"
+        class="back-button"
+      >
         Volver al menú
       </ion-button>
     </div>

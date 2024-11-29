@@ -31,6 +31,13 @@ export class StorageServiceService {
     return await this._storage?.set(key, data);
   }
 
+  async clearUserStatus() {
+    if (!this._storage) await this.init();
+    await this._storage?.remove('user');
+    await this._storage?.remove('asignatures');
+    return await this._storage?.remove('profile');
+  }
+
   async remove(key: string) {
     if (!this._storage) await this.init();
     return await this._storage?.remove(key);
