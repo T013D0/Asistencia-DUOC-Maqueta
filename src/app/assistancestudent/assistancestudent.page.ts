@@ -36,6 +36,8 @@ export class AssistancestudentPage implements OnInit {
 
     if (asistance) {
       this.clases = asistance;
+      console.log('Data from storage', this.clases);
+      
     }
   }
 

@@ -25,7 +25,7 @@
         <div class="attendance-list">
           <div class="attendance-item" *ngFor="let clase of clases">
             <ion-checkbox [checked]="clase.is_present" disabled="true"
-              >Clase {{clase.index}}</ion-checkbox
+              >Clase {{clase.index}} [{{clase.class.date}}]</ion-checkbox
             >
           </div>
         </div>
